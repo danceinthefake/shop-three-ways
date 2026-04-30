@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PRODUCTS_URL, type Product } from '../data/products';
+import AddToCartButtonReact from './AddToCartButtonReact';
 
 export default function ProductListReact() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,12 +30,15 @@ export default function ProductListReact() {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
       {products.map((p) => (
-        <article key={p.id} className="overflow-hidden rounded-md border border-slate-200 bg-white">
+        <article key={p.id} className="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
           <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
-          <div className="flex flex-col gap-1 p-3">
+          <div className="flex flex-1 flex-col gap-1 p-3">
             <span className="font-semibold">{p.title}</span>
             <span className="tabular-nums text-blue-700">${p.price}</span>
             <span className="line-clamp-2 text-sm text-slate-500">{p.description}</span>
+            <div className="mt-2">
+              <AddToCartButtonReact product={p} />
+            </div>
           </div>
         </article>
       ))}

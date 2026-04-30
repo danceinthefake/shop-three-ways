@@ -3,6 +3,9 @@ import '../styles/global.css';
 import ProductListReact from '../components/ProductListReact.tsx';
 import ProductListVue from '../components/ProductListVue.vue';
 import ProductListSvelte from '../components/ProductListSvelte.svelte';
+import CartBadgeReact from '../components/CartBadgeReact.tsx';
+import CartBadgeVue from '../components/CartBadgeVue.vue';
+import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 ---
 
 <html lang="en">
@@ -12,13 +15,26 @@ import ProductListSvelte from '../components/ProductListSvelte.svelte';
     <title>Shop — shop-three-ways</title>
   </head>
   <body class="bg-slate-50 text-slate-900">
+    <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
+        <a href="/" class="text-sm text-blue-700 hover:underline">← home</a>
+        <div class="flex items-center gap-2">
+          <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
+          <CartBadgeReact client:load />
+          <CartBadgeVue client:load />
+          <CartBadgeSvelte client:load />
+        </div>
+      </div>
+    </header>
+
     <main class="mx-auto max-w-5xl px-6 py-8">
-      <p class="mb-4"><a href="/" class="text-blue-700 hover:underline">← home</a></p>
       <h1 class="mb-2 text-3xl font-bold">Shop</h1>
       <p class="mb-8 text-slate-600">
         The same product list, fetched from the
         <a href="https://fakeapi.platzi.com/" class="text-blue-700 hover:underline">Platzi Fake Store API</a>
-        and rendered three times — each block is the same data through a different framework.
+        and rendered three times. Click "Add to cart" in <em>any</em> framework's column —
+        the badges in the header (one per framework) update together because they
+        all subscribe to the same nanostore.
       </p>
 
       <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">

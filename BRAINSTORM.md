@@ -138,7 +138,7 @@ Seven features ship in v1:
 
 1. **Slide banner (hero)** — timers + cleanup on the home page.
 2. **Product carousel** — DOM refs + scroll handlers on the home page.
-3. **Product list (with API fetch)** — list rendering + async/effects
+3. ✅ **Product list (with API fetch)** — list rendering + async/effects
    (`useEffect` vs `onMounted` vs `$effect`) + loading/error states.
 4. **Add-to-cart button** — events, parent ↔ child communication.
 5. **Cart badge in header** — global state via nanostores (centerpiece).
@@ -147,8 +147,9 @@ Seven features ship in v1:
 
 ## 8. Rough Build Order
 
-1. Scaffold Astro + 3 integrations, render "hello" island in each. ✅
-2. Static product list page, one framework at a time.
+1. ✅ Scaffold Astro + 3 integrations, render "hello" island in each.
+2. ✅ Static product list page, one framework at a time. *(Now fetches
+   live from the Platzi API instead of static data.)*
 3. Add the shared store + cart badge — the moment all three frameworks
    talk to each other is the centerpiece.
 4. Quantity stepper (the two-way-binding showcase).
