@@ -1,0 +1,23 @@
+---
+import HelloReact from '../components/HelloReact.tsx';
+import HelloVue from '../components/HelloVue.vue';
+import HelloSvelte from '../components/HelloSvelte.svelte';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>shop-three-ways</title>
+	</head>
+	<body>
+		<h1>shop-three-ways</h1>
+		<p>Hydration smoke test — click each + button:</p>
+		<HelloReact client:load />
+		<HelloVue client:load />
+		<HelloSvelte client:load />
+	</body>
+</html>
