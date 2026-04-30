@@ -1,4 +1,5 @@
 ---
+import '../styles/global.css';
 import HelloReact from '../components/HelloReact.tsx';
 import HelloVue from '../components/HelloVue.vue';
 import HelloSvelte from '../components/HelloSvelte.svelte';
@@ -13,11 +14,23 @@ import HelloSvelte from '../components/HelloSvelte.svelte';
 		<meta name="generator" content={Astro.generator} />
 		<title>shop-three-ways</title>
 	</head>
-	<body>
-		<h1>shop-three-ways</h1>
-		<p>Hydration smoke test — click each + button:</p>
-		<HelloReact client:load />
-		<HelloVue client:load />
-		<HelloSvelte client:load />
+	<body class="bg-slate-50 text-slate-900">
+		<main class="mx-auto max-w-5xl px-6 py-8">
+			<h1 class="mb-2 text-3xl font-bold">shop-three-ways</h1>
+			<p class="mb-4 text-slate-600">
+				The same shop, built three times — in React, Vue, and Svelte.
+			</p>
+			<p class="mb-8">
+				<a href="/shop" class="text-blue-700 hover:underline">→ Visit the shop</a>
+			</p>
+
+			<h2 class="mb-2 text-xl font-semibold">Hydration smoke test</h2>
+			<p class="mb-4 text-slate-600">Click each + button. If all three increment, hydration works.</p>
+			<div class="flex flex-col gap-2">
+				<HelloReact client:load />
+				<HelloVue client:load />
+				<HelloSvelte client:load />
+			</div>
+		</main>
 	</body>
 </html>

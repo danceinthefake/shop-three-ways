@@ -42,7 +42,8 @@ shop; the docs section is the Rosetta reference.
 ## 3. Proposed Site Map (Hybrid)
 
 ```
-/                       Landing — pitch + "see the same button in 3 frameworks"
+/                       Home — slide banner (hero) + featured-product carousel
+                        + pitch / "see the same component in 3 frameworks"
 /shop                   Product listing (live demo)
 /shop/[id]              Product detail
 /cart                   Cart (global state showcase)
@@ -54,6 +55,10 @@ shop; the docs section is the Rosetta reference.
 /about                  Why this exists, how to read it
 ```
 
+The home page is itself a comparison surface: the slide banner and the
+product carousel each ship in three flavors (one island per framework),
+toggleable so the visitor can see them behave identically.
+
 The `/shop`, `/cart`, etc. pages each render **three islands** of the
 same component (one per framework) so the user sees them behaving
 identically. A toggle picks "single framework" vs "all three" view.
@@ -64,6 +69,8 @@ Pick features that each isolate a different framework muscle.
 
 | Feature              | Primary concept demoed                                    |
 | -------------------- | --------------------------------------------------------- |
+| Slide banner (hero)  | **Timers + cleanup** (`setInterval` in `useEffect` vs `onMounted`/`onUnmounted` vs `$effect` return) |
+| Product carousel     | **DOM refs** (`useRef` vs template `ref`/`ref()` vs `bind:this`), scroll handlers |
 | Product card         | Props, conditional rendering                              |
 | Product list         | List rendering, keys                                      |
 | Add-to-cart button   | Event handling, parent ↔ child communication              |
@@ -83,8 +90,17 @@ Those four cover state, derived state, two-way binding, and global state.
 
 - **Astro** with all three integrations: `@astrojs/react`,
   `@astrojs/vue`, `@astrojs/svelte`.
-- **Shared data**: a single `data/products.json` consumed by all three.
-  No backend in v1 — keep the focus on UI code.
+- **Data source**: the [Platzi Fake Store API](https://fakeapi.platzi.com/)
+  at `https://api.escuelajs.co/api/v1/` (read-only endpoints used:
+  `GET /products`, `GET /products/{id}`, `GET /categories`).
+  Each framework component **fetches on mount client-side** so the
+  product list itself demos async/effects in all three frameworks
+  (`useEffect` vs `onMounted` vs `$effect`). This pulls what was
+  originally a separate "product detail fetch" feature into the shop
+  view, where it does more comparison work.
+- **Shared types only** (no shared data array) in
+  `src/data/products.ts`: a `Product` / `Category` TS type derived
+  from the API schema, plus a `PRODUCTS_URL` constant.
 - **Shared cart state across frameworks**: this is the interesting
   problem. Options:
   1. Each framework has its own cart, separate islands. Simplest but
@@ -95,8 +111,10 @@ Those four cover state, derived state, two-way binding, and global state.
 - **Code display**: render the actual source of each component next to
   the live demo. Astro can import raw with `?raw`. Syntax-highlight
   with Shiki (Astro built-in).
-- **Styling**: Tailwind or vanilla CSS. Keep it boring so framework
-  syntax stands out, not styling.
+- **Styling**: **Tailwind CSS** (latest, via `@astrojs/tailwind` /
+  Tailwind v4 Vite plugin). Utility classes inline in templates so
+  the visual layer is identical across frameworks and the only
+  difference between the three columns is framework syntax.
 
 ## 6. Decisions
 
@@ -108,25 +126,34 @@ Those four cover state, derived state, two-way binding, and global state.
 - **Cross-framework store**: **nanostores** — framework-agnostic,
   tiny, has official `@nanostores/react`, `@nanostores/vue`, and
   Svelte interop via `$store` auto-subscriptions.
+- **Styling**: **Tailwind CSS** (utility-first, applied in templates).
+- **Data source**: **Platzi Fake Store API**, fetched client-side
+  inside each framework component so the product list also serves as
+  the async/effects demo.
 - **Hosting**: deferred. Astro static output keeps options open.
 
 ## 7. v1 Scope
 
-Five features ship in v1:
+Seven features ship in v1:
 
-1. **Product list** — list rendering, props.
-2. **Add-to-cart button** — events, parent ↔ child communication.
-3. **Cart badge in header** — global state via nanostores (centerpiece).
-4. **Quantity stepper** — two-way binding idioms.
-5. **Search / filter** — derived state.
+1. **Slide banner (hero)** — timers + cleanup on the home page.
+2. **Product carousel** — DOM refs + scroll handlers on the home page.
+3. **Product list (with API fetch)** — list rendering + async/effects
+   (`useEffect` vs `onMounted` vs `$effect`) + loading/error states.
+4. **Add-to-cart button** — events, parent ↔ child communication.
+5. **Cart badge in header** — global state via nanostores (centerpiece).
+6. **Quantity stepper** — two-way binding idioms.
+7. **Search / filter** — derived state.
 
 ## 8. Rough Build Order
 
-1. Scaffold Astro + 3 integrations, render "hello" island in each.
+1. Scaffold Astro + 3 integrations, render "hello" island in each. ✅
 2. Static product list page, one framework at a time.
 3. Add the shared store + cart badge — the moment all three frameworks
    talk to each other is the centerpiece.
 4. Quantity stepper (the two-way-binding showcase).
 5. Search / filter (derived state).
-6. `/compare/<feature>` pages with side-by-side source.
-7. Polish landing + about.
+6. Slide banner on home (timers + cleanup).
+7. Product carousel on home (DOM refs).
+8. `/compare/<feature>` pages with side-by-side source.
+9. Polish home copy + about.
