@@ -75,6 +75,10 @@ const dialogId = `compare-${slug}`;
           <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React</span>
           <span class="ml-2 font-mono text-xs text-slate-400">{feature.files.react}</span>
         </div>
+        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+          <p class="leading-relaxed">{feature.notes.react}</p>
+        </details>
         <div class="overflow-x-auto p-3 text-xs">
           <Code code={reactSrc} lang="tsx" theme="github-light" />
         </div>
@@ -85,6 +89,10 @@ const dialogId = `compare-${slug}`;
           <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue</span>
           <span class="ml-2 font-mono text-xs text-slate-400">{feature.files.vue}</span>
         </div>
+        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+          <p class="leading-relaxed">{feature.notes.vue}</p>
+        </details>
         <div class="overflow-x-auto p-3 text-xs">
           <Code code={vueSrc} lang="vue" theme="github-light" />
         </div>
@@ -95,6 +103,10 @@ const dialogId = `compare-${slug}`;
           <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte</span>
           <span class="ml-2 font-mono text-xs text-slate-400">{feature.files.svelte}</span>
         </div>
+        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+          <p class="leading-relaxed">{feature.notes.svelte}</p>
+        </details>
         <div class="overflow-x-auto p-3 text-xs">
           <Code code={svelteSrc} lang="svelte" theme="github-light" />
         </div>
