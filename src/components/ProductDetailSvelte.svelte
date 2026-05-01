@@ -32,7 +32,7 @@
   </div>
 
   <div class="flex flex-col gap-3">
-    <span class="text-xs uppercase tracking-wider text-slate-500">{product.category.name}</span>
+    <span class="text-xs uppercase tracking-wider text-slate-500">{product.category}</span>
     <h2 class="text-2xl font-bold">{product.title}</h2>
     <span class="text-xl tabular-nums text-blue-700">${product.price}</span>
     <p class="text-sm leading-relaxed text-slate-600">{product.description}</p>

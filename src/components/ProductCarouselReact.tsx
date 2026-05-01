@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { PRODUCTS_URL, type Product } from '../data/products';
+import { fetchProducts, type Product } from '../data/products';
 
 const SCROLL_STEP = 240;
 
@@ -10,8 +10,7 @@ export default function ProductCarouselReact() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(PRODUCTS_URL)
-      .then((r) => r.json() as Promise<Product[]>)
+    fetchProducts()
       .then((data) => {
         if (!cancelled) {
           setProducts(data);
@@ -51,7 +50,7 @@ export default function ProductCarouselReact() {
             href={`/products/${p.slug}`}
             className="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white hover:border-blue-300"
           >
-            <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
+            <img src={p.thumbnail} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
             <div className="flex flex-col gap-1 p-3">
               <span className="truncate text-sm font-semibold">{p.title}</span>
               <span className="tabular-nums text-blue-700">${p.price}</span>

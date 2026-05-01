@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { PRODUCTS_URL, type Product } from '../data/products';
+import { fetchProducts, type Product } from '../data/products';
 import AddToCartButtonVue from './AddToCartButtonVue.vue';
 
 const products = ref<Product[]>([]);
@@ -9,8 +9,7 @@ const query = ref('');
 
 onMounted(async () => {
   try {
-    const r = await fetch(PRODUCTS_URL);
-    products.value = (await r.json()) as Product[];
+    products.value = await fetchProducts();
     status.value = 'ready';
   } catch {
     status.value = 'error';
@@ -49,7 +48,7 @@ const filtered = computed(() => {
         :key="p.id"
         class="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white"
       >
-        <img :src="p.images[0]" :alt="p.title" loading="lazy" class="aspect-square w-full object-cover" />
+        <img :src="p.thumbnail" :alt="p.title" loading="lazy" class="aspect-square w-full object-cover" />
         <div class="flex flex-1 flex-col gap-1 p-3">
           <span class="font-semibold">{{ p.title }}</span>
           <span class="tabular-nums text-blue-700">${{ p.price }}</span>

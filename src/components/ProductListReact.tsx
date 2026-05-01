@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { PRODUCTS_URL, type Product } from '../data/products';
+import { fetchProducts, type Product } from '../data/products';
 import AddToCartButtonReact from './AddToCartButtonReact';
 
 export default function ProductListReact() {
@@ -9,8 +9,7 @@ export default function ProductListReact() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(PRODUCTS_URL)
-      .then((r) => r.json() as Promise<Product[]>)
+    fetchProducts()
       .then((data) => {
         if (!cancelled) {
           setProducts(data);
@@ -55,7 +54,7 @@ export default function ProductListReact() {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
           {filtered.map((p) => (
             <article key={p.id} className="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
-              <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
+              <img src={p.thumbnail} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
               <div className="flex flex-1 flex-col gap-1 p-3">
                 <span className="font-semibold">{p.title}</span>
                 <span className="tabular-nums text-blue-700">${p.price}</span>

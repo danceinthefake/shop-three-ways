@@ -33,7 +33,7 @@ const selected = ref(0);
     </div>
 
     <div class="flex flex-col gap-3">
-      <span class="text-xs uppercase tracking-wider text-slate-500">{{ props.product.category.name }}</span>
+      <span class="text-xs uppercase tracking-wider text-slate-500">{{ props.product.category }}</span>
       <h2 class="text-2xl font-bold">{{ props.product.title }}</h2>
       <span class="text-xl tabular-nums text-blue-700">${{ props.product.price }}</span>
       <p class="text-sm leading-relaxed text-slate-600">{{ props.product.description }}</p>

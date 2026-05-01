@@ -32,7 +32,7 @@ export function addToCart(product: Product) {
           id: product.id,
           title: product.title,
           price: product.price,
-          image: product.images[0],
+          image: product.thumbnail,
           qty: 1,
         },
   });

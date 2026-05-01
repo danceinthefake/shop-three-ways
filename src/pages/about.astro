@@ -78,10 +78,14 @@ import '../styles/global.css';
       <section class="mb-10">
         <h2 class="mb-2 text-xl font-semibold">Data source</h2>
         <p class="text-slate-600">
-          Products come from the
-          <a href="https://fakeapi.platzi.com/" class="text-blue-700 hover:underline">Platzi Fake Store API</a>
-          (read-only). Each framework's product list and carousel fetch
-          independently on mount, which is the demo's async/effects exercise.
+          Products come from
+          <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
+          (read-only). The wrapped <code>{`{ products, total, ... }`}</code>
+          response is normalized in <code>src/data/products.ts</code> by a
+          single <code>fetchProducts()</code> helper that also generates a
+          slug from each title (DummyJSON has no slug field). Each framework's
+          product list and carousel call that helper on mount, which is the
+          demo's async/effects exercise.
         </p>
       </section>
 

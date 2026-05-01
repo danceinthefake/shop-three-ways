@@ -35,7 +35,7 @@ export default function ProductDetailReact({ product }: Props) {
       </div>
 
       <div className="flex flex-col gap-3">
-        <span className="text-xs uppercase tracking-wider text-slate-500">{product.category.name}</span>
+        <span className="text-xs uppercase tracking-wider text-slate-500">{product.category}</span>
         <h2 className="text-2xl font-bold">{product.title}</h2>
         <span className="text-xl tabular-nums text-blue-700">${product.price}</span>
         <p className="text-sm leading-relaxed text-slate-600">{product.description}</p>

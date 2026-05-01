@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { PRODUCTS_URL, type Product } from '../data/products';
+import { fetchProducts, type Product } from '../data/products';
 
 const SCROLL_STEP = 240;
 
@@ -10,8 +10,7 @@ const scroller = ref<HTMLDivElement | null>(null);
 
 onMounted(async () => {
   try {
-    const r = await fetch(PRODUCTS_URL);
-    products.value = (await r.json()) as Product[];
+    products.value = await fetchProducts();
     status.value = 'ready';
   } catch {
     status.value = 'error';
@@ -43,7 +42,7 @@ const scroll = (dir: -1 | 1) => {
         :href="`/products/${p.slug}`"
         class="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white hover:border-blue-300"
       >
-        <img :src="p.images[0]" :alt="p.title" loading="lazy" class="aspect-square w-full object-cover" />
+        <img :src="p.thumbnail" :alt="p.title" loading="lazy" class="aspect-square w-full object-cover" />
         <div class="flex flex-col gap-1 p-3">
           <span class="truncate text-sm font-semibold">{{ p.title }}</span>
           <span class="tabular-nums text-blue-700">${{ p.price }}</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PRODUCTS_URL, type Product } from '../data/products';
+  import { fetchProducts, type Product } from '../data/products';
   import AddToCartButtonSvelte from './AddToCartButtonSvelte.svelte';
 
   let products = $state<Product[]>([]);
@@ -8,8 +8,7 @@
 
   $effect(() => {
     let cancelled = false;
-    fetch(PRODUCTS_URL)
-      .then((r) => r.json() as Promise<Product[]>)
+    fetchProducts()
       .then((data) => {
         if (!cancelled) {
           products = data;
@@ -55,7 +54,7 @@
       <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
         {#each filtered as p (p.id)}
           <article class="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
-            <img src={p.images[0]} alt={p.title} loading="lazy" class="aspect-square w-full object-cover" />
+            <img src={p.thumbnail} alt={p.title} loading="lazy" class="aspect-square w-full object-cover" />
             <div class="flex flex-1 flex-col gap-1 p-3">
               <span class="font-semibold">{p.title}</span>
               <span class="tabular-nums text-blue-700">${p.price}</span>

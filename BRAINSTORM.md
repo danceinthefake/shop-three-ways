@@ -90,17 +90,20 @@ Those four cover state, derived state, two-way binding, and global state.
 
 - **Astro** with all three integrations: `@astrojs/react`,
   `@astrojs/vue`, `@astrojs/svelte`.
-- **Data source**: the [Platzi Fake Store API](https://fakeapi.platzi.com/)
-  at `https://api.escuelajs.co/api/v1/` (read-only endpoints used:
-  `GET /products`, `GET /products/{id}`, `GET /categories`).
-  Each framework component **fetches on mount client-side** so the
-  product list itself demos async/effects in all three frameworks
-  (`useEffect` vs `onMounted` vs `$effect`). This pulls what was
-  originally a separate "product detail fetch" feature into the shop
-  view, where it does more comparison work.
-- **Shared types only** (no shared data array) in
-  `src/data/products.ts`: a `Product` / `Category` TS type derived
-  from the API schema, plus a `PRODUCTS_URL` constant.
+- **Data source**: [DummyJSON](https://dummyjson.com/docs/products)
+  at `https://dummyjson.com/products` (read-only). The wrapped
+  `{ products, total, skip, limit }` response is normalized inside
+  `src/data/products.ts` by a single `fetchProducts()` helper that
+  also generates a slug from each title (DummyJSON has no slug field).
+  Each framework component calls that helper on mount, so the product
+  list demos async/effects in all three frameworks (`useEffect` vs
+  `onMounted` vs `$effect`). This pulls what was originally a separate
+  "product detail fetch" feature into the shop view, where it does
+  more comparison work.
+- **Shared types + helper** in `src/data/products.ts`: a `Product`
+  TS type, a `RawProduct` for the API shape, and `fetchProducts()` /
+  `slugify()` / `normalize()` helpers. *(Originally targeted Platzi
+  Fake Store API; switched to DummyJSON later.)*
 - **Shared cart state across frameworks**: this is the interesting
   problem. Options:
   1. Each framework has its own cart, separate islands. Simplest but
@@ -127,9 +130,10 @@ Those four cover state, derived state, two-way binding, and global state.
   tiny, has official `@nanostores/react`, `@nanostores/vue`, and
   Svelte interop via `$store` auto-subscriptions.
 - **Styling**: **Tailwind CSS** (utility-first, applied in templates).
-- **Data source**: **Platzi Fake Store API**, fetched client-side
-  inside each framework component so the product list also serves as
-  the async/effects demo.
+- **Data source**: **DummyJSON**, fetched client-side inside each
+  framework component so the product list also serves as the
+  async/effects demo. (Originally Platzi Fake Store API; migrated
+  later — see section 5 for normalization/slug-generation notes.)
 - **Hosting**: deferred. Astro static output keeps options open.
 
 ## 7. v1 Scope
@@ -157,7 +161,7 @@ Seven features ship in v1:
 
 1. ✅ Scaffold Astro + 3 integrations, render "hello" island in each.
 2. ✅ Static product list page, one framework at a time. *(Now fetches
-   live from the Platzi API instead of static data.)*
+   live from DummyJSON instead of static data.)*
 3. ✅ Add the shared store + cart badge — the moment all three frameworks
    talk to each other is the centerpiece. *(Includes add-to-cart
    buttons embedded in each ProductList card.)*

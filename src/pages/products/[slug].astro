@@ -1,6 +1,6 @@
 ---
 import '../../styles/global.css';
-import { PRODUCTS_URL, type Product } from '../../data/products';
+import { fetchProducts, type Product } from '../../data/products';
 import ProductDetailReact from '../../components/ProductDetailReact.tsx';
 import ProductDetailVue from '../../components/ProductDetailVue.vue';
 import ProductDetailSvelte from '../../components/ProductDetailSvelte.svelte';
@@ -10,8 +10,7 @@ import CartBadgeSvelte from '../../components/CartBadgeSvelte.svelte';
 import CompareSection from '../../components/CompareSection.astro';
 
 export async function getStaticPaths() {
-  const res = await fetch(PRODUCTS_URL);
-  const products: Product[] = await res.json();
+  const products = await fetchProducts();
   return products.map((p) => ({
     params: { slug: p.slug },
     props: { product: p },
