@@ -1,154 +1,113 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 import SlideBannerReact from '../components/SlideBannerReact.tsx';
 import SlideBannerVue from '../components/SlideBannerVue.vue';
 import SlideBannerSvelte from '../components/SlideBannerSvelte.svelte';
 import ProductCarouselReact from '../components/ProductCarouselReact.tsx';
 import ProductCarouselVue from '../components/ProductCarouselVue.vue';
 import ProductCarouselSvelte from '../components/ProductCarouselSvelte.svelte';
-import CartBadgeReact from '../components/CartBadgeReact.tsx';
-import CartBadgeVue from '../components/CartBadgeVue.vue';
-import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import CompareSection from '../components/CompareSection.astro';
-import ToasterReact from '../components/ToasterReact.tsx';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>shop-three-ways — React vs Vue vs Svelte</title>
-	</head>
-	<body class="bg-slate-50 text-slate-900">
-		<header class="border-b border-slate-200 bg-white">
-			<div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3 text-sm">
-				<div class="flex gap-3">
-					<a href="/shop" class="text-blue-700 hover:underline">shop</a>
-					<a href="/cart" class="text-blue-700 hover:underline">cart</a>
-					<a href="/compare" class="text-blue-700 hover:underline">compare</a>
-					<a href="/about" class="text-blue-700 hover:underline">about</a>
-					<a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
+<Layout title="shop-three-ways — React vs Vue vs Svelte" withFooter>
+	<main class="mx-auto max-w-5xl px-6 py-10">
+		<section class="mb-12">
+			<p class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">React · Vue · Svelte</p>
+			<h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+				The same shop, built three times.
+			</h1>
+			<p class="mb-6 max-w-2xl text-lg text-slate-600">
+				A small e-commerce demo where every feature ships in
+				<strong>React 19</strong>, <strong>Vue 3.5</strong>, and
+				<strong>Svelte 5</strong> — side-by-side, sharing one cart store,
+				so you can read the differences in idiom without translating
+				between mental models.
+			</p>
+			<div class="flex flex-wrap gap-3">
+				<a href="/shop" class="rounded-md bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800">
+					Browse the shop →
+				</a>
+				<a href="/compare" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50">
+					Read the source comparisons
+				</a>
+				<a href="/about" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50">
+					About this project
+				</a>
+			</div>
+		</section>
+
+		<section class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-3">
+			<a href="/shop" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
+				<h2 class="mb-1 font-semibold">Shop</h2>
+				<p class="text-sm text-slate-600">
+					Three product lists, one fetched API, one shared cart.
+					Add items in any column — all three columns react.
+				</p>
+			</a>
+			<a href="/cart" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
+				<h2 class="mb-1 font-semibold">Cart</h2>
+				<p class="text-sm text-slate-600">
+					Two-way binding showcase. Type a quantity in any framework's
+					stepper — the other two follow.
+				</p>
+			</a>
+			<a href="/compare" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
+				<h2 class="mb-1 font-semibold">Compare</h2>
+				<p class="text-sm text-slate-600">
+					The actual source for every feature, three columns,
+					syntax-highlighted. Always in sync with the running shop.
+				</p>
+			</a>
+		</section>
+
+		<section class="mb-12">
+			<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
+				<h2 class="text-xl font-semibold">Hero slide banner — three timers, three cleanup idioms</h2>
+				<CompareSection slug="slide-banner" />
+			</div>
+			<p class="mb-4 text-sm text-slate-600">
+				Each banner advances every 3 seconds. The interesting code is
+				how each framework starts and tears down the <code>setInterval</code>.
+			</p>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useEffect)</span>
+					<SlideBannerReact client:load />
 				</div>
-				<div class="flex items-center gap-2">
-					<span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
-					<CartBadgeReact client:load />
-					<CartBadgeVue client:load />
-					<CartBadgeSvelte client:load />
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (onMounted/onUnmounted)</span>
+					<SlideBannerVue client:load />
+				</div>
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte ($effect)</span>
+					<SlideBannerSvelte client:load />
 				</div>
 			</div>
-		</header>
+		</section>
 
-		<main class="mx-auto max-w-5xl px-6 py-10">
-			<section class="mb-12">
-				<p class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">React · Vue · Svelte</p>
-				<h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-					The same shop, built three times.
-				</h1>
-				<p class="mb-6 max-w-2xl text-lg text-slate-600">
-					A small e-commerce demo where every feature ships in
-					<strong>React 19</strong>, <strong>Vue 3.5</strong>, and
-					<strong>Svelte 5</strong> — side-by-side, sharing one cart store,
-					so you can read the differences in idiom without translating
-					between mental models.
-				</p>
-				<div class="flex flex-wrap gap-3">
-					<a href="/shop" class="rounded-md bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800">
-						Browse the shop →
-					</a>
-					<a href="/compare" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50">
-						Read the source comparisons
-					</a>
-					<a href="/about" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50">
-						About this project
-					</a>
-				</div>
-			</section>
-
-			<section class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-3">
-				<a href="/shop" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
-					<h2 class="mb-1 font-semibold">Shop</h2>
-					<p class="text-sm text-slate-600">
-						Three product lists, one fetched API, one shared cart.
-						Add items in any column — all three columns react.
-					</p>
-				</a>
-				<a href="/cart" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
-					<h2 class="mb-1 font-semibold">Cart</h2>
-					<p class="text-sm text-slate-600">
-						Two-way binding showcase. Type a quantity in any framework's
-						stepper — the other two follow.
-					</p>
-				</a>
-				<a href="/compare" class="rounded-lg border border-slate-200 bg-white p-4 hover:border-blue-300 hover:bg-blue-50">
-					<h2 class="mb-1 font-semibold">Compare</h2>
-					<p class="text-sm text-slate-600">
-						The actual source for every feature, three columns,
-						syntax-highlighted. Always in sync with the running shop.
-					</p>
-				</a>
-			</section>
-
-			<section class="mb-12">
-				<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
-					<h2 class="text-xl font-semibold">Hero slide banner — three timers, three cleanup idioms</h2>
-					<CompareSection slug="slide-banner" />
-				</div>
-				<p class="mb-4 text-sm text-slate-600">
-					Each banner advances every 3 seconds. The interesting code is
-					how each framework starts and tears down the <code>setInterval</code>.
-				</p>
-				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useEffect)</span>
-						<SlideBannerReact client:load />
-					</div>
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (onMounted/onUnmounted)</span>
-						<SlideBannerVue client:load />
-					</div>
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte ($effect)</span>
-						<SlideBannerSvelte client:load />
-					</div>
-				</div>
-			</section>
-
-			<section>
-				<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
-					<h2 class="text-xl font-semibold">Featured carousel — three ways to grab a DOM element</h2>
-					<CompareSection slug="product-carousel" />
-				</div>
-				<p class="mb-4 text-sm text-slate-600">
-					Prev/next call <code>scrollBy()</code> on the underlying scroll
-					container. Each framework has its own way to capture that element.
-				</p>
-				<div class="flex flex-col gap-6">
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useRef)</span>
-						<ProductCarouselReact client:load />
-					</div>
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (template ref)</span>
-						<ProductCarouselVue client:load />
-					</div>
-					<div class="flex flex-col gap-2">
-						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:this)</span>
-						<ProductCarouselSvelte client:load />
-					</div>
-				</div>
-			</section>
-		</main>
-
-		<ToasterReact client:load />
-
-		<footer class="mt-16 border-t border-slate-200 bg-white py-6">
-			<div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 text-sm text-slate-500">
-				<p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
-				<a href="/about" class="text-blue-700 hover:underline">how to read this site →</a>
+		<section>
+			<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
+				<h2 class="text-xl font-semibold">Featured carousel — three ways to grab a DOM element</h2>
+				<CompareSection slug="product-carousel" />
 			</div>
-		</footer>
-	</body>
-</html>
+			<p class="mb-4 text-sm text-slate-600">
+				Prev/next call <code>scrollBy()</code> on the underlying scroll
+				container. Each framework has its own way to capture that element.
+			</p>
+			<div class="flex flex-col gap-6">
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useRef)</span>
+					<ProductCarouselReact client:load />
+				</div>
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (template ref)</span>
+					<ProductCarouselVue client:load />
+				</div>
+				<div class="flex flex-col gap-2">
+					<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:this)</span>
+					<ProductCarouselSvelte client:load />
+				</div>
+			</div>
+		</section>
+	</main>
+</Layout>

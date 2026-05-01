@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+import CartBadgeReact from '../components/CartBadgeReact.tsx';
+import CartBadgeVue from '../components/CartBadgeVue.vue';
+import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
+import ToasterReact from '../components/ToasterReact.tsx';
+
+type MaxWidth = '3xl' | '5xl' | '7xl';
+
+interface Props {
+  title: string;
+  maxWidth?: MaxWidth;
+  withCart?: boolean;
+  withFooter?: boolean;
+  stickyHeader?: boolean;
+}
+
+const {
+  title,
+  maxWidth = '5xl',
+  withCart = true,
+  withFooter = false,
+  stickyHeader = false,
+} = Astro.props;
+
+const widthClass: Record<MaxWidth, string> = {
+  '3xl': 'max-w-3xl',
+  '5xl': 'max-w-5xl',
+  '7xl': 'max-w-7xl',
+};
+
+const containerClass = widthClass[maxWidth];
+
+const headerClass = stickyHeader
+  ? 'sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur'
+  : 'border-b border-slate-200 bg-white';
+
+const navLinks: Array<{ href: string; label: string }> = [
+  { href: '/', label: 'home' },
+  { href: '/shop', label: 'shop' },
+  { href: '/cart', label: 'cart' },
+  { href: '/compare', label: 'compare' },
+  { href: '/glossary', label: 'glossary' },
+  { href: '/about', label: 'about' },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <header class={headerClass}>
+      <div class={`mx-auto flex ${containerClass} flex-wrap items-center justify-between gap-4 px-6 py-3 text-sm`}>
+        <nav class="flex flex-wrap gap-3">
+          {navLinks.map((l) => (
+            <a href={l.href} class="text-blue-700 hover:underline">{l.label}</a>
+          ))}
+        </nav>
+        {withCart && (
+          <div class="flex items-center gap-2">
+            <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
+            <CartBadgeReact client:load />
+            <CartBadgeVue client:load />
+            <CartBadgeSvelte client:load />
+          </div>
+        )}
+      </div>
+    </header>
+
+    <slot />
+
+    {withCart && <ToasterReact client:load />}
+
+    {withFooter && (
+      <footer class="mt-16 border-t border-slate-200 bg-white py-6">
+        <div class={`mx-auto flex ${containerClass} flex-wrap items-center justify-between gap-4 px-6 text-sm text-slate-500`}>
+          <p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
+          <a href="/about" class="text-blue-700 hover:underline">how to read this site →</a>
+        </div>
+      </footer>
+    )}
+  </body>
+</html>

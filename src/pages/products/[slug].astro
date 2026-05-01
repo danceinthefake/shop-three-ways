@@ -1,14 +1,10 @@
 ---
-import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
 import { fetchProducts, type Product } from '../../data/products';
 import ProductDetailReact from '../../components/ProductDetailReact.tsx';
 import ProductDetailVue from '../../components/ProductDetailVue.vue';
 import ProductDetailSvelte from '../../components/ProductDetailSvelte.svelte';
-import CartBadgeReact from '../../components/CartBadgeReact.tsx';
-import CartBadgeVue from '../../components/CartBadgeVue.vue';
-import CartBadgeSvelte from '../../components/CartBadgeSvelte.svelte';
 import CompareSection from '../../components/CompareSection.astro';
-import ToasterReact from '../../components/ToasterReact.tsx';
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -21,60 +17,32 @@ export async function getStaticPaths() {
 const { product } = Astro.props as { product: Product };
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{product.title} — shop-three-ways</title>
-  </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-        <div class="flex gap-3 text-sm">
-          <a href="/" class="text-blue-700 hover:underline">← home</a>
-          <a href="/shop" class="text-blue-700 hover:underline">shop</a>
-          <a href="/cart" class="text-blue-700 hover:underline">cart</a>
-          <a href="/compare" class="text-blue-700 hover:underline">compare</a>
-          <a href="/about" class="text-blue-700 hover:underline">about</a>
-          <a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
-          <CartBadgeReact client:load />
-          <CartBadgeVue client:load />
-          <CartBadgeSvelte client:load />
-        </div>
-      </div>
-    </header>
+<Layout title={`${product.title} — shop-three-ways`} stickyHeader>
+  <main class="mx-auto max-w-5xl px-6 py-8">
+    <p class="mb-4 text-sm text-slate-500"><a href="/shop" class="text-blue-700 hover:underline">← all products</a></p>
+    <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+      <h1 class="text-3xl font-bold">{product.title}</h1>
+      <CompareSection slug="product-detail" label="ProductDetail" />
+    </div>
+    <p class="mb-8 text-slate-600">
+      Same product detail rendered three times. The image gallery is the
+      new bit — a tiny <em>local</em> "selected image" state per panel
+      that doesn't touch the cart store.
+    </p>
 
-    <main class="mx-auto max-w-5xl px-6 py-8">
-      <p class="mb-4 text-sm text-slate-500"><a href="/shop" class="text-blue-700 hover:underline">← all products</a></p>
-      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 class="text-3xl font-bold">{product.title}</h1>
-        <CompareSection slug="product-detail" label="ProductDetail" />
-      </div>
-      <p class="mb-8 text-slate-600">
-        Same product detail rendered three times. The image gallery is the
-        new bit — a tiny <em>local</em> "selected image" state per panel
-        that doesn't touch the cart store.
-      </p>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
+      <ProductDetailReact product={product} client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
-        <ProductDetailReact product={product} client:load />
-      </section>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
+      <ProductDetailVue product={product} client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
-        <ProductDetailVue product={product} client:load />
-      </section>
-
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
-        <ProductDetailSvelte product={product} client:load />
-      </section>
-    </main>
-
-    <ToasterReact client:load />
-  </body>
-</html>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
+      <ProductDetailSvelte product={product} client:load />
+    </section>
+  </main>
+</Layout>

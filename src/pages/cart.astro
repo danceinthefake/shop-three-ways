@@ -1,80 +1,49 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 import CartViewReact from '../components/CartViewReact.tsx';
 import CartViewVue from '../components/CartViewVue.vue';
 import CartViewSvelte from '../components/CartViewSvelte.svelte';
-import CartBadgeReact from '../components/CartBadgeReact.tsx';
-import CartBadgeVue from '../components/CartBadgeVue.vue';
-import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import CompareSection from '../components/CompareSection.astro';
-import ToasterReact from '../components/ToasterReact.tsx';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Cart — shop-three-ways</title>
-  </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-        <div class="flex gap-3 text-sm">
-          <a href="/" class="text-blue-700 hover:underline">← home</a>
-          <a href="/shop" class="text-blue-700 hover:underline">shop</a>
-          <a href="/compare" class="text-blue-700 hover:underline">compare</a>
-          <a href="/about" class="text-blue-700 hover:underline">about</a>
-          <a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
-          <CartBadgeReact client:load />
-          <CartBadgeVue client:load />
-          <CartBadgeSvelte client:load />
-        </div>
+<Layout title="Cart — shop-three-ways" stickyHeader>
+  <main class="mx-auto max-w-5xl px-6 py-8">
+    <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+      <h1 class="text-3xl font-bold">Cart</h1>
+      <div class="flex flex-wrap gap-2">
+        <CompareSection slug="cart-view" label="CartView" />
+        <CompareSection slug="quantity-stepper" label="QuantityStepper" />
       </div>
-    </header>
+    </div>
+    <p class="mb-8 text-slate-600">
+      Three views of the same cart. The stepper input on each row is the
+      <strong>two-way binding showcase</strong>: type a number, click ±, or change
+      the qty in <em>any</em> framework's view — all three update because the
+      underlying cart is one nanostore.
+    </p>
 
-    <main class="mx-auto max-w-5xl px-6 py-8">
-      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 class="text-3xl font-bold">Cart</h1>
-        <div class="flex flex-wrap gap-2">
-          <CompareSection slug="cart-view" label="CartView" />
-          <CompareSection slug="quantity-stepper" label="QuantityStepper" />
-        </div>
-      </div>
-      <p class="mb-8 text-slate-600">
-        Three views of the same cart. The stepper input on each row is the
-        <strong>two-way binding showcase</strong>: type a number, click ±, or change
-        the qty in <em>any</em> framework's view — all three update because the
-        underlying cart is one nanostore.
-      </p>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React (controlled input)</h2>
+      <CartViewReact client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React (controlled input)</h2>
-        <CartViewReact client:load />
-      </section>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue (v-model)</h2>
+      <CartViewVue client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue (v-model)</h2>
-        <CartViewVue client:load />
-      </section>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:value)</h2>
+      <CartViewSvelte client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:value)</h2>
-        <CartViewSvelte client:load />
-      </section>
-
-      <div class="mt-8 flex justify-end">
-        <a
-          href="/checkout"
-          class="rounded bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800"
-        >
-          Proceed to checkout →
-        </a>
-      </div>
-    </main>
-
-    <ToasterReact client:load />
-  </body>
-</html>
+    <div class="mt-8 flex justify-end">
+      <a
+        href="/checkout"
+        class="rounded bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800"
+      >
+        Proceed to checkout →
+      </a>
+    </div>
+  </main>
+</Layout>

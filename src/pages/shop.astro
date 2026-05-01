@@ -1,75 +1,44 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 import ProductListReact from '../components/ProductListReact.tsx';
 import ProductListVue from '../components/ProductListVue.vue';
 import ProductListSvelte from '../components/ProductListSvelte.svelte';
-import CartBadgeReact from '../components/CartBadgeReact.tsx';
-import CartBadgeVue from '../components/CartBadgeVue.vue';
-import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import CompareSection from '../components/CompareSection.astro';
-import ToasterReact from '../components/ToasterReact.tsx';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Shop — shop-three-ways</title>
-  </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-        <div class="flex gap-3 text-sm">
-          <a href="/" class="text-blue-700 hover:underline">← home</a>
-          <a href="/cart" class="text-blue-700 hover:underline">cart</a>
-          <a href="/compare" class="text-blue-700 hover:underline">compare</a>
-          <a href="/about" class="text-blue-700 hover:underline">about</a>
-          <a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
-          <CartBadgeReact client:load />
-          <CartBadgeVue client:load />
-          <CartBadgeSvelte client:load />
-        </div>
+<Layout title="Shop — shop-three-ways" stickyHeader>
+  <main class="mx-auto max-w-5xl px-6 py-8">
+    <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+      <h1 class="text-3xl font-bold">Shop</h1>
+      <div class="flex flex-wrap gap-2">
+        <CompareSection slug="product-list" label="ProductList" />
+        <CompareSection slug="add-to-cart" label="AddToCartButton" />
+        <CompareSection slug="wishlist-toggle" label="WishlistButton" />
+        <CompareSection slug="cart-badge" label="CartBadge" />
+        <CompareSection slug="toast-notifications" label="Toast" />
       </div>
-    </header>
+    </div>
+    <p class="mb-8 text-slate-600">
+      The same product list, fetched from
+      <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
+      and rendered three times. Click "Add to cart" in <em>any</em> framework's column —
+      the badges in the header (one per framework) update together because they
+      all subscribe to the same nanostore.
+    </p>
 
-    <main class="mx-auto max-w-5xl px-6 py-8">
-      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 class="text-3xl font-bold">Shop</h1>
-        <div class="flex flex-wrap gap-2">
-          <CompareSection slug="product-list" label="ProductList" />
-          <CompareSection slug="add-to-cart" label="AddToCartButton" />
-          <CompareSection slug="wishlist-toggle" label="WishlistButton" />
-          <CompareSection slug="cart-badge" label="CartBadge" />
-          <CompareSection slug="toast-notifications" label="Toast" />
-        </div>
-      </div>
-      <p class="mb-8 text-slate-600">
-        The same product list, fetched from
-        <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
-        and rendered three times. Click "Add to cart" in <em>any</em> framework's column —
-        the badges in the header (one per framework) update together because they
-        all subscribe to the same nanostore.
-      </p>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
+      <ProductListReact client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
-        <ProductListReact client:load />
-      </section>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
+      <ProductListVue client:load />
+    </section>
 
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
-        <ProductListVue client:load />
-      </section>
-
-      <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
-        <ProductListSvelte client:load />
-      </section>
-    </main>
-
-    <ToasterReact client:load />
-  </body>
-</html>
+    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
+      <ProductListSvelte client:load />
+    </section>
+  </main>
+</Layout>

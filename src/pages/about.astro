@@ -1,112 +1,103 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>About — shop-three-ways</title>
-  </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="border-b border-slate-200 bg-white">
-      <div class="mx-auto flex max-w-3xl flex-wrap items-center gap-4 px-6 py-3 text-sm">
-        <a href="/" class="text-blue-700 hover:underline">← home</a>
-        <a href="/shop" class="text-blue-700 hover:underline">shop</a>
-        <a href="/cart" class="text-blue-700 hover:underline">cart</a>
-        <a href="/compare" class="text-blue-700 hover:underline">compare</a>
-        <a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
-      </div>
-    </header>
+<Layout title="About — shop-three-ways" maxWidth="3xl" withCart={false} withFooter>
+  <main class="mx-auto max-w-3xl px-6 py-10">
+    <h1 class="mb-3 text-3xl font-bold">About</h1>
+    <p class="mb-6 text-slate-600">
+      <strong>shop-three-ways</strong> is a small e-commerce demo where every
+      feature is implemented three times — in React, Vue, and Svelte — and
+      rendered side-by-side as Astro islands. The point is to make the three
+      framework idioms readable at a glance, so a developer fluent in one
+      can pick up the other two without translating between mental models.
+    </p>
 
-    <main class="mx-auto max-w-3xl px-6 py-10">
-      <h1 class="mb-3 text-3xl font-bold">About</h1>
-      <p class="mb-6 text-slate-600">
-        <strong>shop-three-ways</strong> is a small e-commerce demo where every
-        feature is implemented three times — in React, Vue, and Svelte — and
-        rendered side-by-side as Astro islands. The point is to make the three
-        framework idioms readable at a glance, so a developer fluent in one
-        can pick up the other two without translating between mental models.
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">Who it's for</h2>
+      <p class="text-slate-600">
+        Anyone who's confident in one of {`{React, Vue, Svelte}`} and wants
+        a Rosetta-stone-style intro to the other two. The reading mode is:
+        find the column you already know, then read the same feature in the
+        other two columns next to it.
       </p>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="mb-2 text-xl font-semibold">Who it's for</h2>
-        <p class="text-slate-600">
-          Anyone who's confident in one of {`{React, Vue, Svelte}`} and wants
-          a Rosetta-stone-style intro to the other two. The reading mode is:
-          find the column you already know, then read the same feature in the
-          other two columns next to it.
-        </p>
-      </section>
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">How it's structured</h2>
+      <p class="mb-3 text-slate-600">
+        A working shop comes first, with a Rosetta reference layered on top:
+      </p>
+      <ul class="list-inside list-disc space-y-1 text-slate-600">
+        <li><a href="/shop" class="text-blue-700 hover:underline">/shop</a> — three product lists fetching the same API, sharing one cart.</li>
+        <li><a href="/cart" class="text-blue-700 hover:underline">/cart</a> — three views of the same cart, each with the framework's two-way binding idiom on the qty input.</li>
+        <li><a href="/" class="text-blue-700 hover:underline">/</a> — the home page hosts the slide-banner (timers + cleanup) and product-carousel (DOM refs) demos.</li>
+        <li><a href="/compare" class="text-blue-700 hover:underline">/compare</a> — for every feature, the three real source files side-by-side, syntax-highlighted. Always in sync with the live shop because they're loaded with <code>?raw</code>.</li>
+      </ul>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="mb-2 text-xl font-semibold">How it's structured</h2>
-        <p class="mb-3 text-slate-600">
-          A working shop comes first, with a Rosetta reference layered on top:
-        </p>
-        <ul class="list-inside list-disc space-y-1 text-slate-600">
-          <li><a href="/shop" class="text-blue-700 hover:underline">/shop</a> — three product lists fetching the same API, sharing one cart.</li>
-          <li><a href="/cart" class="text-blue-700 hover:underline">/cart</a> — three views of the same cart, each with the framework's two-way binding idiom on the qty input.</li>
-          <li><a href="/" class="text-blue-700 hover:underline">/</a> — the home page hosts the slide-banner (timers + cleanup) and product-carousel (DOM refs) demos.</li>
-          <li><a href="/compare" class="text-blue-700 hover:underline">/compare</a> — for every feature, the three real source files side-by-side, syntax-highlighted. Always in sync with the live shop because they're loaded with <code>?raw</code>.</li>
-        </ul>
-      </section>
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">The concepts each feature isolates</h2>
+      <ul class="list-inside list-disc space-y-1 text-slate-600">
+        <li><strong>Slide banner</strong> — timers + cleanup (<code>useEffect</code> vs <code>onMounted</code>/<code>onUnmounted</code> vs <code>$effect</code>).</li>
+        <li><strong>Product carousel</strong> — DOM refs (<code>useRef</code> vs template ref vs <code>bind:this</code>).</li>
+        <li><strong>Product list</strong> — async fetch state machine + derived filter (<code>useMemo</code> vs <code>computed</code> vs <code>$derived</code>).</li>
+        <li><strong>Add-to-cart + cart badge</strong> — global state via nanostores. The same atom is read and written from all three frameworks.</li>
+        <li><strong>Quantity stepper</strong> — two-way binding (controlled <code>onChange</code> vs <code>v-model.lazy</code> vs <code>bind:value</code> + <code>onchange</code>).</li>
+        <li><strong>Wishlist toggle + toast notifications</strong> — local UI state on a persistent store, plus the composition primitive each framework uses (<code>children</code> / <code>&lt;slot /&gt;</code> / <code>Snippet</code>).</li>
+      </ul>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="mb-2 text-xl font-semibold">The concepts each feature isolates</h2>
-        <ul class="list-inside list-disc space-y-1 text-slate-600">
-          <li><strong>Slide banner</strong> — timers + cleanup (<code>useEffect</code> vs <code>onMounted</code>/<code>onUnmounted</code> vs <code>$effect</code>).</li>
-          <li><strong>Product carousel</strong> — DOM refs (<code>useRef</code> vs template ref vs <code>bind:this</code>).</li>
-          <li><strong>Product list</strong> — async fetch state machine + derived filter (<code>useMemo</code> vs <code>computed</code> vs <code>$derived</code>).</li>
-          <li><strong>Add-to-cart + cart badge</strong> — global state via nanostores. The same atom is read and written from all three frameworks.</li>
-          <li><strong>Quantity stepper</strong> — two-way binding (controlled <code>onChange</code> vs <code>v-model.lazy</code> vs <code>bind:value</code> + <code>onchange</code>).</li>
-        </ul>
-      </section>
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">Tech stack</h2>
+      <ul class="list-inside list-disc space-y-1 text-slate-600">
+        <li><a href="https://astro.build" class="text-blue-700 hover:underline">Astro 6</a> as the multi-framework host.</li>
+        <li>React 19, Vue 3.5, Svelte 5 (runes) — all latest idiomatic syntax.</li>
+        <li><a href="https://github.com/nanostores/nanostores" class="text-blue-700 hover:underline">nanostores</a> as the framework-agnostic store, with <code>@nanostores/react</code>, <code>@nanostores/vue</code>, and Svelte's native <code>$store</code> auto-subscription. Persisted to <code>localStorage</code> via <code>@nanostores/persistent</code>.</li>
+        <li>Tailwind CSS v4 (Vite plugin) so the visual layer is identical across the three columns.</li>
+        <li>TypeScript everywhere, kept minimal.</li>
+        <li>Astro's built-in <code>&lt;Code&gt;</code> component (Shiki) for the source-comparison pages.</li>
+      </ul>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="mb-2 text-xl font-semibold">Tech stack</h2>
-        <ul class="list-inside list-disc space-y-1 text-slate-600">
-          <li><a href="https://astro.build" class="text-blue-700 hover:underline">Astro 6</a> as the multi-framework host.</li>
-          <li>React 19, Vue 3.5, Svelte 5 (runes) — all latest idiomatic syntax.</li>
-          <li><a href="https://github.com/nanostores/nanostores" class="text-blue-700 hover:underline">nanostores</a> as the framework-agnostic store, with <code>@nanostores/react</code>, <code>@nanostores/vue</code>, and Svelte's native <code>$store</code> auto-subscription. Persisted to <code>localStorage</code> via <code>@nanostores/persistent</code>.</li>
-          <li>Tailwind CSS v4 (Vite plugin) so the visual layer is identical across the three columns.</li>
-          <li>TypeScript everywhere, kept minimal.</li>
-          <li>Astro's built-in <code>&lt;Code&gt;</code> component (Shiki) for the source-comparison pages.</li>
-        </ul>
-      </section>
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">A note on the size badges</h2>
+      <p class="text-slate-600">
+        Each <code>/compare</code> panel shows the source file's gzipped
+        byte size and line count. That measures the component file you
+        wrote — useful for "how much code did this take?" — not the
+        runtime cost paid in the browser. Framework runtime is shared
+        across every island on the page (rough orders: React ~45 KB,
+        Vue ~35 KB, Svelte ~5 KB gzipped) and isn't reflected in the
+        per-component badges.
+      </p>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="mb-2 text-xl font-semibold">Data source</h2>
-        <p class="text-slate-600">
-          Products come from
-          <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
-          (read-only). The wrapped <code>{`{ products, total, ... }`}</code>
-          response is normalized in <code>src/data/products.ts</code> by a
-          single <code>fetchProducts()</code> helper that also generates a
-          slug from each title (DummyJSON has no slug field). Each framework's
-          product list and carousel call that helper on mount, which is the
-          demo's async/effects exercise.
-        </p>
-      </section>
+    <section class="mb-10">
+      <h2 class="mb-2 text-xl font-semibold">Data source</h2>
+      <p class="text-slate-600">
+        Products come from
+        <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
+        (read-only). The wrapped <code>{`{ products, total, ... }`}</code>
+        response is normalized in <code>src/data/products.ts</code> by a
+        single <code>fetchProducts()</code> helper that also generates a
+        slug from each title (DummyJSON has no slug field). Each framework's
+        product list and carousel call that helper on mount, which is the
+        demo's async/effects exercise.
+      </p>
+    </section>
 
-      <section>
-        <h2 class="mb-2 text-xl font-semibold">A note on framework versions</h2>
-        <p class="text-slate-600">
-          The Svelte column uses Svelte 5 runes (<code>$state</code>,
-          <code>$derived</code>, <code>$effect</code>, <code>$props</code>),
-          which is a meaningful syntactic shift from older tutorials. The
-          React column uses React 19 conventions, and Vue uses
-          <code>&lt;script setup&gt;</code> with the Composition API.
-          Older syntax works but is intentionally excluded so each column
-          shows the framework's current best practice.
-        </p>
-      </section>
-    </main>
-
-    <footer class="mt-16 border-t border-slate-200 bg-white py-6">
-      <div class="mx-auto max-w-3xl px-6 text-sm text-slate-500">
-        <p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
-      </div>
-    </footer>
-  </body>
-</html>
+    <section>
+      <h2 class="mb-2 text-xl font-semibold">A note on framework versions</h2>
+      <p class="text-slate-600">
+        The Svelte column uses Svelte 5 runes (<code>$state</code>,
+        <code>$derived</code>, <code>$effect</code>, <code>$props</code>),
+        which is a meaningful syntactic shift from older tutorials. The
+        React column uses React 19 conventions, and Vue uses
+        <code>&lt;script setup&gt;</code> with the Composition API.
+        Older syntax works but is intentionally excluded so each column
+        shows the framework's current best practice.
+      </p>
+    </section>
+  </main>
+</Layout>

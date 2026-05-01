@@ -1,24 +1,8 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Glossary — shop-three-ways</title>
-  </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="border-b border-slate-200 bg-white">
-      <div class="mx-auto flex max-w-3xl flex-wrap items-center gap-4 px-6 py-3 text-sm">
-        <a href="/" class="text-blue-700 hover:underline">← home</a>
-        <a href="/shop" class="text-blue-700 hover:underline">shop</a>
-        <a href="/cart" class="text-blue-700 hover:underline">cart</a>
-        <a href="/compare" class="text-blue-700 hover:underline">compare</a>
-        <a href="/about" class="text-blue-700 hover:underline">about</a>
-      </div>
-    </header>
-
+<Layout title="Glossary — shop-three-ways" maxWidth="3xl" withCart={false} withFooter>
     <main class="mx-auto max-w-3xl px-6 py-10">
       <h1 class="mb-2 text-3xl font-bold">Glossary</h1>
       <p class="mb-6 text-slate-600">
@@ -205,11 +189,4 @@ import '../styles/global.css';
         </dl>
       </section>
     </main>
-
-    <footer class="mt-16 border-t border-slate-200 bg-white py-6">
-      <div class="mx-auto max-w-3xl px-6 text-sm text-slate-500">
-        <p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
-      </div>
-    </footer>
-  </body>
-</html>
+</Layout>
