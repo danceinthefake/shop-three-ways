@@ -6,6 +6,7 @@ import CartViewSvelte from '../components/CartViewSvelte.svelte';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
+import CompareSection from '../components/CompareSection.astro';
 ---
 
 <html lang="en">
@@ -33,7 +34,13 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
     </header>
 
     <main class="mx-auto max-w-5xl px-6 py-8">
-      <h1 class="mb-2 text-3xl font-bold">Cart</h1>
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+        <h1 class="text-3xl font-bold">Cart</h1>
+        <div class="flex flex-wrap gap-2">
+          <CompareSection slug="cart-view" label="CartView" />
+          <CompareSection slug="quantity-stepper" label="QuantityStepper" />
+        </div>
+      </div>
       <p class="mb-8 text-slate-600">
         Three views of the same cart. The stepper input on each row is the
         <strong>two-way binding showcase</strong>: type a number, click ±, or change

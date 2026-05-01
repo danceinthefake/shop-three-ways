@@ -9,6 +9,7 @@ import ProductCarouselSvelte from '../components/ProductCarouselSvelte.svelte';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
+import CompareSection from '../components/CompareSection.astro';
 ---
 
 <html lang="en">
@@ -89,7 +90,10 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 			</section>
 
 			<section class="mb-12">
-				<h2 class="mb-1 text-xl font-semibold">Hero slide banner — three timers, three cleanup idioms</h2>
+				<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
+					<h2 class="text-xl font-semibold">Hero slide banner — three timers, three cleanup idioms</h2>
+					<CompareSection slug="slide-banner" />
+				</div>
 				<p class="mb-4 text-sm text-slate-600">
 					Each banner advances every 3 seconds. The interesting code is
 					how each framework starts and tears down the <code>setInterval</code>.
@@ -111,7 +115,10 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 			</section>
 
 			<section>
-				<h2 class="mb-1 text-xl font-semibold">Featured carousel — three ways to grab a DOM element</h2>
+				<div class="mb-1 flex flex-wrap items-baseline justify-between gap-3">
+					<h2 class="text-xl font-semibold">Featured carousel — three ways to grab a DOM element</h2>
+					<CompareSection slug="product-carousel" />
+				</div>
 				<p class="mb-4 text-sm text-slate-600">
 					Prev/next call <code>scrollBy()</code> on the underlying scroll
 					container. Each framework has its own way to capture that element.

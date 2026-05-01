@@ -6,6 +6,7 @@ import ProductListSvelte from '../components/ProductListSvelte.svelte';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
+import CompareSection from '../components/CompareSection.astro';
 ---
 
 <html lang="en">
@@ -33,7 +34,14 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
     </header>
 
     <main class="mx-auto max-w-5xl px-6 py-8">
-      <h1 class="mb-2 text-3xl font-bold">Shop</h1>
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+        <h1 class="text-3xl font-bold">Shop</h1>
+        <div class="flex flex-wrap gap-2">
+          <CompareSection slug="product-list" label="ProductList" />
+          <CompareSection slug="add-to-cart" label="AddToCartButton" />
+          <CompareSection slug="cart-badge" label="CartBadge" />
+        </div>
+      </div>
       <p class="mb-8 text-slate-600">
         The same product list, fetched from the
         <a href="https://fakeapi.platzi.com/" class="text-blue-700 hover:underline">Platzi Fake Store API</a>

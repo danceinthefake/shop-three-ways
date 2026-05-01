@@ -6,6 +6,7 @@ import CheckoutFormSvelte from '../components/CheckoutFormSvelte.svelte';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
+import CompareSection from '../components/CompareSection.astro';
 ---
 
 <html lang="en">
@@ -34,7 +35,10 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
     </header>
 
     <main class="mx-auto max-w-5xl px-6 py-8">
-      <h1 class="mb-2 text-3xl font-bold">Checkout</h1>
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
+        <h1 class="text-3xl font-bold">Checkout</h1>
+        <CompareSection slug="checkout-form" label="CheckoutForm" />
+      </div>
       <p class="mb-8 text-slate-600">
         Three independent forms with the same fields and the same validation
         rules. The interesting code is how each framework structures
