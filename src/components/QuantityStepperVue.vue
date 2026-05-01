@@ -24,7 +24,7 @@ const qty = computed<number>({
     <input
       type="number"
       :min="0"
-      v-model.number="qty"
+      v-model.lazy.number="qty"
       class="w-12 border-x border-slate-300 px-2 py-1 text-center tabular-nums focus:outline-none"
     />
     <button

@@ -16,7 +16,8 @@
   <input
     type="number"
     min={0}
-    bind:value={() => qty, (v) => setQty(id, Number(v))}
+    value={qty}
+    onchange={(e) => setQty(id, Number(e.currentTarget.value))}
     class="w-12 border-x border-slate-300 px-2 py-1 text-center tabular-nums focus:outline-none"
   />
   <button
