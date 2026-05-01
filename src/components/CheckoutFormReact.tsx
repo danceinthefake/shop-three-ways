@@ -1,6 +1,5 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
-import { useStore } from '@nanostores/react';
-import { cart } from '../stores/cart';
+import { useCart } from '../hooks/useCartReact';
 import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -11,11 +10,7 @@ type Errors = Partial<Record<FieldKey, string>>;
 type Touched = Partial<Record<FieldKey, boolean>>;
 
 export default function CheckoutFormReact() {
-  const $cart = useStore(cart);
-  const subtotal = useMemo(
-    () => Object.values($cart).reduce((s, i) => s + i.price * i.qty, 0),
-    [$cart],
-  );
+  const { subtotal } = useCart();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

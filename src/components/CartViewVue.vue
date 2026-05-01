@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from '@nanostores/vue';
-import { cart, removeFromCart } from '../stores/cart';
+import { removeFromCart } from '../stores/cart';
+import { useCart } from '../composables/useCartVue';
 import QuantityStepperVue from './QuantityStepperVue.vue';
 
-const $cart = useStore(cart);
-const items = computed(() => Object.values($cart.value));
-const total = computed(() =>
-  items.value.reduce((sum, i) => sum + i.price * i.qty, 0),
-);
+const { items, subtotal: total } = useCart();
 </script>
 
 <template>

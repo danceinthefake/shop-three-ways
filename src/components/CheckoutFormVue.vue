@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { useStore } from '@nanostores/vue';
-import { cart } from '../stores/cart';
+import { useCart } from '../composables/useCartVue';
 import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -9,10 +8,7 @@ const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-
 
 type FieldKey = 'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping';
 
-const $cart = useStore(cart);
-const subtotal = computed(() =>
-  Object.values($cart.value).reduce((s, i) => s + i.price * i.qty, 0),
-);
+const { subtotal } = useCart();
 
 const name = ref('');
 const email = ref('');

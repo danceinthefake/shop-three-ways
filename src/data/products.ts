@@ -1,3 +1,10 @@
+export type Review = {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+};
+
 // Raw shape from DummyJSON. We only declare the fields we actually use,
 // not the full ~20-field record the API returns.
 type RawProduct = {
@@ -6,8 +13,10 @@ type RawProduct = {
   description: string;
   category: string;
   price: number;
+  rating: number;
   thumbnail: string;
   images: string[];
+  reviews: Review[];
 };
 
 export type Product = {
@@ -17,8 +26,10 @@ export type Product = {
   description: string;
   category: string;
   price: number;
+  rating: number;
   thumbnail: string;
   images: string[];
+  reviews: Review[];
 };
 
 // Fetch a wider window than we display, then sample across it. DummyJSON
@@ -27,7 +38,7 @@ export type Product = {
 // item spans ~8 categories so the demo shop looks like a general store.
 const FETCH_WINDOW = 100;
 const STEP = 12;
-const SELECT = 'id,title,description,category,price,thumbnail,images';
+const SELECT = 'id,title,description,category,price,rating,thumbnail,images,reviews';
 export const PRODUCTS_URL = `https://dummyjson.com/products?limit=${FETCH_WINDOW}&select=${SELECT}`;
 
 function slugify(title: string): string {
@@ -45,8 +56,10 @@ function normalize(p: RawProduct): Product {
     description: p.description,
     category: p.category,
     price: p.price,
+    rating: p.rating,
     thumbnail: p.thumbnail,
     images: p.images,
+    reviews: p.reviews ?? [],
   };
 }
 

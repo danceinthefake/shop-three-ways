@@ -1,11 +1,13 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { fade } from 'svelte/transition';
-  import { cart, removeFromCart } from '../stores/cart';
+  import { removeFromCart } from '../stores/cart';
+  import { useCart } from '../lib/useCartSvelte.svelte';
   import QuantityStepperSvelte from './QuantityStepperSvelte.svelte';
 
-  const items = $derived(Object.values($cart));
-  const total = $derived(items.reduce((sum, i) => sum + i.price * i.qty, 0));
+  const totals = useCart();
+  const items = $derived(totals.items);
+  const total = $derived(totals.subtotal);
 </script>
 
 {#if items.length === 0}

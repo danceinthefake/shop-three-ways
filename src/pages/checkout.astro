@@ -10,7 +10,10 @@ import CompareSection from '../components/CompareSection.astro';
   <main class="mx-auto max-w-5xl px-6 py-8">
     <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
       <h1 class="text-3xl font-bold">Checkout</h1>
-      <CompareSection slug="checkout-form" label="CheckoutForm" />
+      <div class="flex flex-wrap gap-2">
+        <CompareSection slug="checkout-form" label="CheckoutForm" />
+        <CompareSection slug="use-cart" label="useCart" />
+      </div>
     </div>
     <p class="mb-8 text-slate-600 dark:text-slate-300">
       Three independent forms with the same fields and the same validation

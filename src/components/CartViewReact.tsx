@@ -1,11 +1,9 @@
-import { useStore } from '@nanostores/react';
-import { cart, removeFromCart } from '../stores/cart';
+import { removeFromCart } from '../stores/cart';
+import { useCart } from '../hooks/useCartReact';
 import QuantityStepperReact from './QuantityStepperReact';
 
 export default function CartViewReact() {
-  const $cart = useStore(cart);
-  const items = Object.values($cart);
-  const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const { items, subtotal: total } = useCart();
 
   if (items.length === 0) {
     return <p className="text-sm text-slate-500 dark:text-slate-400">Cart is empty.</p>;

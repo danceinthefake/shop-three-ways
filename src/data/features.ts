@@ -224,9 +224,9 @@ export const features: Feature[] = [
   {
     slug: 'product-detail',
     title: 'Product detail',
-    concept: 'Local UI state (image gallery)',
+    concept: 'Local UI state + nested data rendering',
     blurb:
-      'Receives a Product as a prop, holds a tiny "selected image index" in local state, and lets the user click thumbnails to swap the main image. No store involvement.',
+      'Image gallery with selected-index local state, plus a reviews list with star ratings. The reviews loop is a small showcase of nested data rendering, and the star widget is reused both for the product rating and per-review rating.',
     files: {
       react: 'ProductDetailReact.tsx',
       vue: 'ProductDetailVue.vue',
@@ -234,11 +234,11 @@ export const features: Feature[] = [
     },
     notes: {
       react:
-        'useState(0) for the selected index. Click handler calls setSelected(i). Props are typed as a function argument — JSX reads them directly.',
+        'useState(0) for the selected index. Stars is a small inner component that accepts rating and renders five filled-or-not glyphs. The reviews loop is a plain map with key={i}.',
       vue:
-        'ref(0) for the selected index. Props via defineProps with a generic type. Template uses props.product.images directly.',
+        'ref(0) for the selected index. Stars are inlined as a v-for over [1..5] — no separate component because the template syntax already reads cleanly. Reviews loop with v-for and Math.round inline.',
       svelte:
-        '$state(0) for the index. Props via $props() destructure with a TS annotation. The template reads product.images[selected] without indirection.',
+        '$state(0) for the index. The Stars widget is a {#snippet stars(rating)} ... {/snippet} declared inline and called with {@render stars(product.rating)} — Svelte 5\'s parameterized snippets, like a tiny private component without the file boundary.',
     },
   },
   {
@@ -279,6 +279,26 @@ export const features: Feature[] = [
         'useStore returns a Vue ref; computed wraps the boolean lookup so the template auto-tracks it. :class array switches between two Tailwind sets.',
       svelte:
         '$wishlist auto-subscription, then saved is a $derived rune over the lookup. Pure runes, no adapter — same five lines you would write to read any other store.',
+    },
+  },
+  {
+    slug: 'use-cart',
+    title: 'useCart — hook / composable / rune function',
+    concept: 'Logic composition (reusable reactive logic)',
+    blurb:
+      'Cart subtotal lookup is needed in both CartView and CheckoutForm. Each framework has its own pattern for extracting reactive logic into a reusable function — different name, same idea. The three live in src/hooks, src/composables, and src/lib so they read like real-world code rather than demo files.',
+    files: {
+      react: 'useCartReact.ts',
+      vue: 'useCartVue.ts',
+      svelte: 'useCartSvelte.svelte.ts',
+    },
+    notes: {
+      react:
+        'A "custom hook" — a function whose name starts with use that internally calls other hooks. useStore subscribes the calling component to the cart atom; useMemo recomputes items / subtotal / count only when the underlying $cart changes. Returning a frozen object keeps consumers from re-rendering on shape mutations.',
+      vue:
+        'A "composable" — a plain function that returns refs / computeds. The Vue analogue of a custom hook, popularized by the Composition API. Templates auto-unwrap refs, so consumers can write {{ subtotal }} or :class without .value. The composable convention is alphabetic: any file under src/composables/ that starts with use.',
+      svelte:
+        'Svelte 5 lets you use runes ($state, $derived, $effect) in any file ending in .svelte.js or .svelte.ts. fromStore() bridges a regular Svelte store (nanostores conform) into a reactive { current } shape. The function returns getters because $derived values are live — consuming a getter in a component or another rune-using function tracks the read.',
     },
   },
   {

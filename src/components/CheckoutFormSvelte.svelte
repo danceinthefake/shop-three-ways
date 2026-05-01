@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cart } from '../stores/cart';
+  import { useCart } from '../lib/useCartSvelte.svelte';
   import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 
   type FieldKey = 'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping';
@@ -7,9 +7,8 @@
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
 
-  const subtotal = $derived(
-    Object.values($cart).reduce((s, i) => s + i.price * i.qty, 0),
-  );
+  const cartTotals = useCart();
+  const subtotal = $derived(cartTotals.subtotal);
 
   let name = $state('');
   let email = $state('');
