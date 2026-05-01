@@ -163,4 +163,7 @@ Seven features ship in v1:
    at `/compare`, dynamic pages at `/compare/[feature]` highlighted
    with Astro's `<Code>` / Shiki, sources loaded via
    `import.meta.glob('?raw')`.)*
-9. Polish home copy + about.
+9. ✅ Polish home copy + about. *(Home rewritten with hero, explore
+   cards, synced cart-badge header, footer; smoke test removed and
+   Hello* components deleted. `/about` covers audience, structure,
+   concept matrix, tech stack, data attribution.)*
