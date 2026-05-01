@@ -3,6 +3,9 @@ import '../styles/global.css';
 import HelloReact from '../components/HelloReact.tsx';
 import HelloVue from '../components/HelloVue.vue';
 import HelloSvelte from '../components/HelloSvelte.svelte';
+import SlideBannerReact from '../components/SlideBannerReact.tsx';
+import SlideBannerVue from '../components/SlideBannerVue.vue';
+import SlideBannerSvelte from '../components/SlideBannerSvelte.svelte';
 ---
 
 <html lang="en">
@@ -25,13 +28,38 @@ import HelloSvelte from '../components/HelloSvelte.svelte';
 				<a href="/cart" class="text-blue-700 hover:underline">→ View the cart</a>
 			</p>
 
-			<h2 class="mb-2 text-xl font-semibold">Hydration smoke test</h2>
-			<p class="mb-4 text-slate-600">Click each + button. If all three increment, hydration works.</p>
-			<div class="flex flex-col gap-2">
-				<HelloReact client:load />
-				<HelloVue client:load />
-				<HelloSvelte client:load />
-			</div>
+			<section class="mb-10">
+				<h2 class="mb-1 text-xl font-semibold">Hero slide banner — three timers, three cleanup idioms</h2>
+				<p class="mb-4 text-sm text-slate-600">
+					Each banner advances every 3 seconds. Watch what happens when you
+					navigate away (route change unmounts the components and each framework's
+					cleanup fires — no orphan intervals).
+				</p>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useEffect)</span>
+						<SlideBannerReact client:load />
+					</div>
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (onMounted/onUnmounted)</span>
+						<SlideBannerVue client:load />
+					</div>
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte ($effect)</span>
+						<SlideBannerSvelte client:load />
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="mb-2 text-xl font-semibold">Hydration smoke test</h2>
+				<p class="mb-4 text-slate-600">Click each + button. If all three increment, hydration works.</p>
+				<div class="flex flex-col gap-2">
+					<HelloReact client:load />
+					<HelloVue client:load />
+					<HelloSvelte client:load />
+				</div>
+			</section>
 		</main>
 	</body>
 </html>
