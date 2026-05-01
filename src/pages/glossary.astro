@@ -1,0 +1,215 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Glossary — shop-three-ways</title>
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-3xl flex-wrap items-center gap-4 px-6 py-3 text-sm">
+        <a href="/" class="text-blue-700 hover:underline">← home</a>
+        <a href="/shop" class="text-blue-700 hover:underline">shop</a>
+        <a href="/cart" class="text-blue-700 hover:underline">cart</a>
+        <a href="/compare" class="text-blue-700 hover:underline">compare</a>
+        <a href="/about" class="text-blue-700 hover:underline">about</a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-10">
+      <h1 class="mb-2 text-3xl font-bold">Glossary</h1>
+      <p class="mb-6 text-slate-600">
+        Plain-English definitions for the terms that appear across the
+        comparison notes. Grouped by section so you can jump to whichever
+        framework is unfamiliar to you.
+      </p>
+
+      <nav class="mb-10 flex flex-wrap gap-3 text-sm">
+        <a href="#general" class="rounded border border-slate-200 bg-white px-3 py-1 hover:border-blue-300">General</a>
+        <a href="#react" class="rounded border border-slate-200 bg-white px-3 py-1 hover:border-blue-300">React</a>
+        <a href="#vue" class="rounded border border-slate-200 bg-white px-3 py-1 hover:border-blue-300">Vue</a>
+        <a href="#svelte" class="rounded border border-slate-200 bg-white px-3 py-1 hover:border-blue-300">Svelte 5</a>
+        <a href="#nanostores" class="rounded border border-slate-200 bg-white px-3 py-1 hover:border-blue-300">nanostores</a>
+      </nav>
+
+      <section id="general" class="mb-10 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 pb-2 text-xl font-semibold">General reactivity</h2>
+        <dl class="grid gap-4">
+          <div id="closure">
+            <dt class="font-semibold">closure</dt>
+            <dd class="text-sm text-slate-700">A function that "remembers" the variables in scope where it was defined. In framework code, the cleanup function returned by an effect is a closure over the setup variables (timer ids, controllers, etc.).</dd>
+          </div>
+          <div id="mount-unmount">
+            <dt class="font-semibold">mount / unmount</dt>
+            <dd class="text-sm text-slate-700">Mount = the component's DOM is added to the page. Unmount = it's removed. Most setup and teardown work hangs off these moments.</dd>
+          </div>
+          <div id="cleanup">
+            <dt class="font-semibold">cleanup</dt>
+            <dd class="text-sm text-slate-700">Code that runs on unmount (or before re-running an effect) to undo what setup did — clear intervals, abort fetches, remove listeners. Skipping it leaks memory and creates "zombie" callbacks that fire after the component is gone.</dd>
+          </div>
+          <div id="subscribe">
+            <dt class="font-semibold">subscribe / subscription</dt>
+            <dd class="text-sm text-slate-700">Telling a reactive source ("call me when you change") and receiving updates. The framework adapter usually handles unsubscribing on unmount so you don't have to.</dd>
+          </div>
+          <div id="store">
+            <dt class="font-semibold">store</dt>
+            <dd class="text-sm text-slate-700">A piece of state that lives outside any one component, so multiple components can read and write the same value. Nanostores, Pinia, Redux, Zustand all use this term. Local state (useState/ref/$state) is not usually called a store.</dd>
+          </div>
+          <div id="controlled-input">
+            <dt class="font-semibold">controlled input</dt>
+            <dd class="text-sm text-slate-700">A form input whose displayed value is driven entirely by your state, not by the DOM. React's standard pattern: <code>{`<input value={x} onChange={e => setX(e.target.value)} />`}</code>. Vue and Svelte usually handle this implicitly via <a href="#v-model" class="text-blue-700 hover:underline">v-model</a> / <a href="#bind-value" class="text-blue-700 hover:underline">bind:value</a>.</dd>
+          </div>
+          <div id="dependency-tracking">
+            <dt class="font-semibold">dependency tracking (auto vs manual)</dt>
+            <dd class="text-sm text-slate-700">For a derived value or an effect, "deps" are the reactive things it reads. React makes you list them explicitly (<a href="#dependency-array" class="text-blue-700 hover:underline">dependency array</a>); Vue and Svelte 5 detect them automatically by recording reactive reads at runtime.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="react" class="mb-10 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 pb-2 text-xl font-semibold">React</h2>
+        <dl class="grid gap-4">
+          <div id="jsx">
+            <dt class="font-semibold">JSX</dt>
+            <dd class="text-sm text-slate-700">React's HTML-in-JavaScript syntax. Compiled to function calls. Looks like HTML but follows JS semantics — <code>class</code> is <code>className</code>, event handlers are <code>onClick</code> not <code>onclick</code>.</dd>
+          </div>
+          <div id="useState">
+            <dt class="font-semibold">useState</dt>
+            <dd class="text-sm text-slate-700">Hook for local component state. <code>const [x, setX] = useState(initial)</code>. Calling <code>setX</code> schedules a re-render with the new value.</dd>
+          </div>
+          <div id="useEffect">
+            <dt class="font-semibold">useEffect</dt>
+            <dd class="text-sm text-slate-700">Hook for side effects (fetches, subscriptions, timers). Runs after render. Takes a function and a <a href="#dependency-array" class="text-blue-700 hover:underline">dependency array</a>; the previous effect's <a href="#cleanup-return" class="text-blue-700 hover:underline">cleanup return</a> runs before each re-run and on unmount.</dd>
+          </div>
+          <div id="useMemo">
+            <dt class="font-semibold">useMemo</dt>
+            <dd class="text-sm text-slate-700">Hook for memoizing a derived value. Only recomputes when its dep array changes. Equivalent to Vue's <a href="#computed" class="text-blue-700 hover:underline">computed</a> or Svelte's <a href="#derived-rune" class="text-blue-700 hover:underline">$derived</a>, but with manual deps.</dd>
+          </div>
+          <div id="useRef">
+            <dt class="font-semibold">useRef</dt>
+            <dd class="text-sm text-slate-700">Hook for a "ref object" — a stable mutable container with a <code>.current</code> field. Most often holds a DOM element (passed via the <code>ref</code> JSX prop) or any value that should survive renders without triggering them.</dd>
+          </div>
+          <div id="dependency-array">
+            <dt class="font-semibold">dependency array</dt>
+            <dd class="text-sm text-slate-700">The second argument to useEffect / useMemo / useCallback. Lists the values the hook reads. React re-runs the hook only when something in the array changes (using <code>Object.is</code>). <code>[]</code> means "run only once after mount".</dd>
+          </div>
+          <div id="cleanup-return">
+            <dt class="font-semibold">cleanup return</dt>
+            <dd class="text-sm text-slate-700">A function returned by useEffect that React calls before the next effect run and on unmount. The standard place for <code>clearInterval</code>, <code>unsubscribe</code>, <code>controller.abort</code>, etc.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="vue" class="mb-10 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 pb-2 text-xl font-semibold">Vue</h2>
+        <dl class="grid gap-4">
+          <div id="ref">
+            <dt class="font-semibold">ref (Composition API)</dt>
+            <dd class="text-sm text-slate-700">Vue's wrapper for a single reactive value. <code>const x = ref(0)</code>. Read or write via <code>.value</code> in script; templates auto-unwrap so <code>{`{{ x }}`}</code> just works. Different concept from a "DOM ref" (which is also called ref but bound by template name).</dd>
+          </div>
+          <div id="computed">
+            <dt class="font-semibold">computed</dt>
+            <dd class="text-sm text-slate-700">Vue's auto-tracked derived value. <code>const sum = computed(() =&gt; a.value + b.value)</code>. Recomputes lazily when read; tracks reactive reads inside automatically — no dep list to maintain.</dd>
+          </div>
+          <div id="writable-computed">
+            <dt class="font-semibold">writable computed</dt>
+            <dd class="text-sm text-slate-700">A computed with both <code>get</code> and <code>set</code>. <code>computed({`{ get, set }`})</code>. Lets <a href="#v-model" class="text-blue-700 hover:underline">v-model</a> bind to a derived value (e.g. one backed by a store) by giving it a writable surface.</dd>
+          </div>
+          <div id="onMounted">
+            <dt class="font-semibold">onMounted / onUnmounted</dt>
+            <dd class="text-sm text-slate-700">Vue's lifecycle hooks. Two separate functions for setup and teardown — Vue doesn't pair them via a return value the way React's useEffect does.</dd>
+          </div>
+          <div id="v-model">
+            <dt class="font-semibold">v-model</dt>
+            <dd class="text-sm text-slate-700">Vue's two-way binding directive. <code>v-model="x"</code> on a text input is sugar for <code>:value="x"</code> + <code>@input="x = $event.target.value"</code>. Other components define their own contract; for <code>&lt;input&gt;</code> it just works.</dd>
+          </div>
+          <div id="v-model-modifiers">
+            <dt class="font-semibold">v-model modifiers</dt>
+            <dd class="text-sm text-slate-700">Append <code>.modifier</code> to v-model. <code>.lazy</code> switches the listener from <code>input</code> to <code>change</code> (commits on blur). <code>.number</code> casts the input string to a Number. <code>.trim</code> trims whitespace.</dd>
+          </div>
+          <div id="defineProps">
+            <dt class="font-semibold">defineProps</dt>
+            <dd class="text-sm text-slate-700">Compile-macro inside <code>&lt;script setup&gt;</code> for declaring a component's props. Takes a TS generic for typing: <code>defineProps&lt;{`{ product: Product }`}&gt;()</code>.</dd>
+          </div>
+          <div id="script-setup">
+            <dt class="font-semibold">&lt;script setup&gt;</dt>
+            <dd class="text-sm text-slate-700">The terse, modern Vue Single-File-Component syntax where the top-level script body IS the component setup. Cleaner than the older <code>setup() {`{ ... return { ... } }`}</code> form.</dd>
+          </div>
+          <div id="composition-api">
+            <dt class="font-semibold">Composition API</dt>
+            <dd class="text-sm text-slate-700">The function-based Vue 3 API (refs, computed, watchers, lifecycle hooks). Contrast with the Options API where state lives under <code>data()</code>, methods under <code>methods</code>, etc. This project uses Composition API throughout.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="svelte" class="mb-10 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 pb-2 text-xl font-semibold">Svelte 5</h2>
+        <dl class="grid gap-4">
+          <div id="rune">
+            <dt class="font-semibold">rune</dt>
+            <dd class="text-sm text-slate-700">A <code>$</code>-prefixed function-like primitive in Svelte 5 (<a href="#state-rune" class="text-blue-700 hover:underline">$state</a>, <a href="#derived-rune" class="text-blue-700 hover:underline">$derived</a>, <a href="#effect-rune" class="text-blue-700 hover:underline">$effect</a>, <a href="#props-rune" class="text-blue-700 hover:underline">$props</a>). Signals to the compiler that the next thing is reactive. Replaces several Svelte 4 conventions (top-level <code>let</code>, <code>$:</code> reactive statements, <code>export let</code>).</dd>
+          </div>
+          <div id="state-rune">
+            <dt class="font-semibold">$state</dt>
+            <dd class="text-sm text-slate-700">A reactive value. <code>let count = $state(0)</code>. Read and write as a normal variable; the compiler wires up reactivity.</dd>
+          </div>
+          <div id="derived-rune">
+            <dt class="font-semibold">$derived</dt>
+            <dd class="text-sm text-slate-700">A reactive computed value. <code>const doubled = $derived(count * 2)</code>. Auto-tracks reactive reads in the expression — no deps. Use <code>$derived.by(() =&gt; {`{ ... }`})</code> when the derivation needs multiple statements.</dd>
+          </div>
+          <div id="effect-rune">
+            <dt class="font-semibold">$effect</dt>
+            <dd class="text-sm text-slate-700">A reactive side effect. <code>$effect(() =&gt; {`{ ... return cleanup }`})</code>. Re-runs when its tracked reads change; the returned function is the <a href="#cleanup" class="text-blue-700 hover:underline">cleanup</a>. Same shape as React's <a href="#useEffect" class="text-blue-700 hover:underline">useEffect</a>, no manual deps.</dd>
+          </div>
+          <div id="props-rune">
+            <dt class="font-semibold">$props</dt>
+            <dd class="text-sm text-slate-700">The runes way to declare component props. <code>let {`{ product }`} = $props()</code> with a TS annotation on the destructure. Replaces Svelte 4's <code>export let</code>.</dd>
+          </div>
+          <div id="bind-value">
+            <dt class="font-semibold">bind:value</dt>
+            <dd class="text-sm text-slate-700">Svelte's two-way binding on an input. <code>&lt;input bind:value={`{x}`} /&gt;</code>. Updates <code>x</code> on every input event. Svelte 5 also supports function-binding <code>bind:value={`{() => x, (v) => x = v}`}</code> for non-writable backing values.</dd>
+          </div>
+          <div id="bind-this">
+            <dt class="font-semibold">bind:this</dt>
+            <dd class="text-sm text-slate-700">Captures the DOM element into a variable. <code>&lt;div bind:this={`{el}`}&gt;&lt;/div&gt;</code> then <code>el?.scrollBy(...)</code>. Svelte's equivalent of React's <a href="#useRef" class="text-blue-700 hover:underline">useRef</a> + ref prop, with no <code>.current</code> indirection.</dd>
+          </div>
+          <div id="dollar-store">
+            <dt class="font-semibold">$-prefix auto-subscription</dt>
+            <dd class="text-sm text-slate-700">Inside a <code>.svelte</code> file, prefixing an imported <a href="#store" class="text-blue-700 hover:underline">store</a> with <code>$</code> (e.g. <code>$cart</code>) makes Svelte <a href="#subscribe" class="text-blue-700 hover:underline">subscribe</a> on mount and unsubscribe on unmount. Works for any object with the Svelte store contract — nanostores qualifies.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="nanostores" class="mb-10 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 pb-2 text-xl font-semibold">nanostores</h2>
+        <dl class="grid gap-4">
+          <div id="atom">
+            <dt class="font-semibold">atom</dt>
+            <dd class="text-sm text-slate-700">The basic nanostores primitive — a single value with <code>.get()</code>, <code>.set()</code>, and <code>.subscribe()</code>. Created with <code>atom(initial)</code>. Framework-agnostic; the framework adapter handles re-rendering.</dd>
+          </div>
+          <div id="nanostores-computed">
+            <dt class="font-semibold">computed (nanostores)</dt>
+            <dd class="text-sm text-slate-700">A read-only store derived from one or more other stores. <code>computed(cart, $cart =&gt; sum)</code>. Notification only fires when the derived value actually changes — saves consumers from re-rendering on no-op updates.</dd>
+          </div>
+          <div id="persistentAtom">
+            <dt class="font-semibold">persistentAtom</dt>
+            <dd class="text-sm text-slate-700">An atom backed by <code>localStorage</code> (from <code>@nanostores/persistent</code>). Same API as <code>atom</code>, plus a key string and encode/decode functions. Survives full page navigations and reloads.</dd>
+          </div>
+          <div id="useStore">
+            <dt class="font-semibold">useStore (adapter)</dt>
+            <dd class="text-sm text-slate-700">The hook-shaped function that subscribes a component to a nanostore and returns its current value. <code>@nanostores/react</code> returns the value directly; <code>@nanostores/vue</code> returns a Vue ref. Svelte doesn't need an adapter — it uses <a href="#dollar-store" class="text-blue-700 hover:underline">$store</a> syntax directly.</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="mt-16 border-t border-slate-200 bg-white py-6">
+      <div class="mx-auto max-w-3xl px-6 text-sm text-slate-500">
+        <p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
+      </div>
+    </footer>
+  </body>
+</html>

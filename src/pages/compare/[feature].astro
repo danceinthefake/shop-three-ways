@@ -1,7 +1,7 @@
 ---
 import '../../styles/global.css';
 import { Code } from 'astro:components';
-import { features, type Feature } from '../../data/features';
+import { features, linkifyNote, type Feature } from '../../data/features';
 
 export function getStaticPaths() {
   return features.map((f) => ({
@@ -44,6 +44,7 @@ const svelteSrc = load(feature.files.svelte);
         <a href="/shop" class="text-blue-700 hover:underline">shop</a>
         <a href="/cart" class="text-blue-700 hover:underline">cart</a>
         <a href="/about" class="text-blue-700 hover:underline">about</a>
+        <a href="/glossary" class="text-blue-700 hover:underline">glossary</a>
       </div>
     </header>
 
@@ -60,7 +61,7 @@ const svelteSrc = load(feature.files.svelte);
           </div>
           <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
             <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
-            <p class="leading-relaxed">{feature.notes.react}</p>
+            <p class="leading-relaxed" set:html={linkifyNote(feature.notes.react)}></p>
           </details>
           <div class="overflow-x-auto p-3 text-xs">
             <Code code={reactSrc} lang="tsx" theme="github-light" />
@@ -74,7 +75,7 @@ const svelteSrc = load(feature.files.svelte);
           </div>
           <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
             <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
-            <p class="leading-relaxed">{feature.notes.vue}</p>
+            <p class="leading-relaxed" set:html={linkifyNote(feature.notes.vue)}></p>
           </details>
           <div class="overflow-x-auto p-3 text-xs">
             <Code code={vueSrc} lang="vue" theme="github-light" />
@@ -88,7 +89,7 @@ const svelteSrc = load(feature.files.svelte);
           </div>
           <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
             <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
-            <p class="leading-relaxed">{feature.notes.svelte}</p>
+            <p class="leading-relaxed" set:html={linkifyNote(feature.notes.svelte)}></p>
           </details>
           <div class="overflow-x-auto p-3 text-xs">
             <Code code={svelteSrc} lang="svelte" theme="github-light" />

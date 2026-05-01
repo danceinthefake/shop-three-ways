@@ -4,6 +4,69 @@ export type FrameworkNotes = {
   svelte: string;
 };
 
+// Order matters: longer / more specific terms must come before shorter
+// substrings of themselves (e.g. v-model.lazy before v-model).
+const TERM_LINKS: Array<{ term: string; href: string }> = [
+  { term: '$-prefix auto-subscription', href: '/glossary#dollar-store' },
+  { term: 'v-model.lazy', href: '/glossary#v-model-modifiers' },
+  { term: 'v-model', href: '/glossary#v-model' },
+  { term: 'bind:value', href: '/glossary#bind-value' },
+  { term: 'bind:this', href: '/glossary#bind-this' },
+  { term: '$derived.by', href: '/glossary#derived-rune' },
+  { term: '$derived', href: '/glossary#derived-rune' },
+  { term: '$effect', href: '/glossary#effect-rune' },
+  { term: '$state', href: '/glossary#state-rune' },
+  { term: '$props', href: '/glossary#props-rune' },
+  { term: 'useEffect', href: '/glossary#useEffect' },
+  { term: 'useState', href: '/glossary#useState' },
+  { term: 'useMemo', href: '/glossary#useMemo' },
+  { term: 'useRef', href: '/glossary#useRef' },
+  { term: 'useStore', href: '/glossary#useStore' },
+  { term: 'dependency array', href: '/glossary#dependency-array' },
+  { term: 'writable computed', href: '/glossary#writable-computed' },
+  { term: 'controlled input', href: '/glossary#controlled-input' },
+  { term: 'persistentAtom', href: '/glossary#persistentAtom' },
+  { term: 'defineProps', href: '/glossary#defineProps' },
+  { term: 'onMounted', href: '/glossary#onMounted' },
+  { term: 'onUnmounted', href: '/glossary#onMounted' },
+  { term: 'computed', href: '/glossary#computed' },
+  { term: 'rune', href: '/glossary#rune' },
+  { term: 'atom', href: '/glossary#atom' },
+  { term: 'cleanup', href: '/glossary#cleanup' },
+  { term: 'closure', href: '/glossary#closure' },
+  { term: 'subscribes', href: '/glossary#subscribe' },
+  { term: 'subscribe()', href: '/glossary#subscribe' },
+  { term: 'subscribe', href: '/glossary#subscribe' },
+];
+
+const ANCHOR_CLASS = 'text-blue-700 underline decoration-blue-200 underline-offset-2 hover:decoration-blue-500';
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Convert a plain-text note into HTML, replacing the FIRST occurrence of each
+ * known term with a link to its glossary anchor. Boundary uses [^\w-$] so that
+ * 'ref' doesn't match inside 'useRef' and '$state' won't match inside a longer
+ * identifier like '$state2'.
+ */
+export function linkifyNote(note: string): string {
+  let html = escapeHtml(note);
+  for (const { term, href } of TERM_LINKS) {
+    const escaped = escapeRegex(term);
+    const re = new RegExp(`(?<![\\w$-])(${escaped})(?![\\w$-])`);
+    if (re.test(html)) {
+      html = html.replace(re, `<a href="${href}" class="${ANCHOR_CLASS}">$1</a>`);
+    }
+  }
+  return html;
+}
+
 export type Feature = {
   slug: string;
   title: string;
