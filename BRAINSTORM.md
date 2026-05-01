@@ -159,5 +159,8 @@ Seven features ship in v1:
    ProductList — local query + derived filtered list per panel.)*
 6. ✅ Slide banner on home (timers + cleanup).
 7. ✅ Product carousel on home (DOM refs).
-8. `/compare/<feature>` pages with side-by-side source.
+8. ✅ `/compare/<feature>` pages with side-by-side source. *(Index
+   at `/compare`, dynamic pages at `/compare/[feature]` highlighted
+   with Astro's `<Code>` / Shiki, sources loaded via
+   `import.meta.glob('?raw')`.)*
 9. Polish home copy + about.
