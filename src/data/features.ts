@@ -95,4 +95,28 @@ export const features: Feature[] = [
       svelte: 'CartViewSvelte.svelte',
     },
   },
+  {
+    slug: 'product-detail',
+    title: 'Product detail',
+    concept: 'Local UI state (image gallery)',
+    blurb:
+      'Receives a Product as a prop, holds a tiny "selected image index" in local state, and lets the user click thumbnails to swap the main image. No store involvement.',
+    files: {
+      react: 'ProductDetailReact.tsx',
+      vue: 'ProductDetailVue.vue',
+      svelte: 'ProductDetailSvelte.svelte',
+    },
+  },
+  {
+    slug: 'checkout-form',
+    title: 'Checkout form',
+    concept: 'Forms + validation',
+    blurb:
+      'Five fields with required + email/zip-format validation, derived error map, gated submit, and inline success state. The genuinely-different muscle compared to everything else in the demo.',
+    files: {
+      react: 'CheckoutFormReact.tsx',
+      vue: 'CheckoutFormVue.vue',
+      svelte: 'CheckoutFormSvelte.svelte',
+    },
+  },
 ];

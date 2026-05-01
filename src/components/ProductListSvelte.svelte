@@ -60,8 +60,9 @@
               <span class="font-semibold">{p.title}</span>
               <span class="tabular-nums text-blue-700">${p.price}</span>
               <span class="line-clamp-2 text-sm text-slate-500">{p.description}</span>
-              <div class="mt-2">
+              <div class="mt-2 flex items-center justify-between gap-2">
                 <AddToCartButtonSvelte product={p} />
+                <a href={`/products/${p.slug}`} class="text-xs text-blue-700 hover:underline">details →</a>
               </div>
             </div>
           </article>

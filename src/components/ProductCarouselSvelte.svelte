@@ -47,13 +47,16 @@
       class="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2"
     >
       {#each products as p (p.id)}
-        <article class="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
+        <a
+          href={`/products/${p.slug}`}
+          class="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white hover:border-blue-300"
+        >
           <img src={p.images[0]} alt={p.title} loading="lazy" class="aspect-square w-full object-cover" />
           <div class="flex flex-col gap-1 p-3">
             <span class="truncate text-sm font-semibold">{p.title}</span>
             <span class="tabular-nums text-blue-700">${p.price}</span>
           </div>
-        </article>
+        </a>
       {/each}
     </div>
     <button

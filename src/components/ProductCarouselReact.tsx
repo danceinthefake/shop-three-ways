@@ -46,16 +46,17 @@ export default function ProductCarouselReact() {
         className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2"
       >
         {products.map((p) => (
-          <article
+          <a
             key={p.id}
-            className="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white"
+            href={`/products/${p.slug}`}
+            className="flex w-52 shrink-0 snap-start flex-col overflow-hidden rounded-md border border-slate-200 bg-white hover:border-blue-300"
           >
             <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
             <div className="flex flex-col gap-1 p-3">
               <span className="truncate text-sm font-semibold">{p.title}</span>
               <span className="tabular-nums text-blue-700">${p.price}</span>
             </div>
-          </article>
+          </a>
         ))}
       </div>
       <button

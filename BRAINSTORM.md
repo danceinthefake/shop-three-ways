@@ -45,7 +45,7 @@ shop; the docs section is the Rosetta reference.
 /                       Home — slide banner (hero) + featured-product carousel
                         + pitch / "see the same component in 3 frameworks"
 /shop                   Product listing (live demo)
-/shop/[id]              Product detail
+/products/[slug]        Product detail
 /cart                   Cart (global state showcase)
 /checkout               Form + validation showcase
 
@@ -77,8 +77,8 @@ Pick features that each isolate a different framework muscle.
 | Cart badge in header | **Cross-component / global state** (the big one)          |
 | Quantity stepper     | **Two-way binding** (`v-model`, `bind:`, controlled input)|
 | Search / filter      | **Derived state** (`useMemo`, `computed`, `$derived`)     |
-| Product detail fetch | **Effects / async** (`useEffect`, `watchEffect`, `$effect`)|
-| Checkout form        | Form handling, validation, refs                           |
+| Product detail       | Local UI state — image gallery select index               |
+| Checkout form        | **Forms + validation** — per-field state, derived errors  |
 | Wishlist toggle      | Local component state, persistence                        |
 | Toast notifications  | **Slots / children / snippets** (composition)             |
 
@@ -144,6 +144,14 @@ Seven features ship in v1:
 5. ✅ **Cart badge in header** — global state via nanostores (centerpiece).
 6. ✅ **Quantity stepper** — two-way binding idioms.
 7. ✅ **Search / filter** — derived state.
+
+## 7b. Post-v1 additions (shipped)
+
+- ✅ **Product detail** at `/products/[slug]` — getStaticPaths from
+  the API at build time, three ProductDetail panels with image
+  gallery (`useState` / `ref` / `$state` for selected index).
+- ✅ **Checkout form** at `/checkout` — three forms with per-field
+  state, derived error map, gated submit, inline success.
 
 ## 8. Rough Build Order
 
