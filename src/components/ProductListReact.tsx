@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchProducts, type Product } from '../data/products';
 import AddToCartButtonReact from './AddToCartButtonReact';
+import WishlistButtonReact from './WishlistButtonReact';
 
 export default function ProductListReact() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,9 +60,10 @@ export default function ProductListReact() {
                 <span className="font-semibold">{p.title}</span>
                 <span className="tabular-nums text-blue-700">${p.price}</span>
                 <span className="line-clamp-2 text-sm text-slate-500">{p.description}</span>
-                <div className="mt-2 flex items-center justify-between gap-2">
+                <div className="mt-2 flex items-center gap-2">
                   <AddToCartButtonReact product={p} />
-                  <a href={`/products/${p.slug}`} className="text-xs text-blue-700 hover:underline">details →</a>
+                  <WishlistButtonReact id={p.id} />
+                  <a href={`/products/${p.slug}`} className="ml-auto text-xs text-blue-700 hover:underline">details →</a>
                 </div>
               </div>
             </article>

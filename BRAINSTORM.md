@@ -79,7 +79,7 @@ Pick features that each isolate a different framework muscle.
 | Search / filter      | **Derived state** (`useMemo`, `computed`, `$derived`)     |
 | Product detail       | Local UI state — image gallery select index               |
 | Checkout form        | **Forms + validation** — per-field state, derived errors  |
-| Wishlist toggle      | Local component state, persistence                        |
+| Wishlist toggle      | Local UI state + persistent global store                  |
 | Toast notifications  | **Slots / children / snippets** (composition)             |
 
 This list is intentionally bigger than what we'll ship in v1. v1 likely
@@ -156,6 +156,17 @@ Seven features ship in v1:
   gallery (`useState` / `ref` / `$state` for selected index).
 - ✅ **Checkout form** at `/checkout` — three forms with per-field
   state, derived error map, gated submit, inline success.
+- ✅ **Wishlist toggle** — heart button on every product card,
+  backed by a `persistentAtom<Record<id, true>>` mirroring the cart
+  store shape. Toggling pushes a toast.
+- ✅ **Toast notifications** — `Toast` wrapper per framework
+  showcases each composition primitive (React `children`, Vue
+  `<slot />`, Svelte 5 `Snippet` + `{@render children()}`). A single
+  `ToasterReact` is mounted on each main page and subscribes to a
+  shared `toasts` atom.
+
+The original concept matrix is now complete: every cell in section 4
+has a shipped feature.
 
 ## 8. Rough Build Order
 

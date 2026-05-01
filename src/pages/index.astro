@@ -10,6 +10,7 @@ import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import CompareSection from '../components/CompareSection.astro';
+import ToasterReact from '../components/ToasterReact.tsx';
 ---
 
 <html lang="en">
@@ -140,6 +141,8 @@ import CompareSection from '../components/CompareSection.astro';
 				</div>
 			</section>
 		</main>
+
+		<ToasterReact client:load />
 
 		<footer class="mt-16 border-t border-slate-200 bg-white py-6">
 			<div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 text-sm text-slate-500">

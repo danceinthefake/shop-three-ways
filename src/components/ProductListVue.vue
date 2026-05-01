@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { fetchProducts, type Product } from '../data/products';
 import AddToCartButtonVue from './AddToCartButtonVue.vue';
+import WishlistButtonVue from './WishlistButtonVue.vue';
 
 const products = ref<Product[]>([]);
 const status = ref<'loading' | 'ready' | 'error'>('loading');
@@ -53,9 +54,10 @@ const filtered = computed(() => {
           <span class="font-semibold">{{ p.title }}</span>
           <span class="tabular-nums text-blue-700">${{ p.price }}</span>
           <span class="line-clamp-2 text-sm text-slate-500">{{ p.description }}</span>
-          <div class="mt-2 flex items-center justify-between gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <AddToCartButtonVue :product="p" />
-            <a :href="`/products/${p.slug}`" class="text-xs text-blue-700 hover:underline">details →</a>
+            <WishlistButtonVue :id="p.id" />
+            <a :href="`/products/${p.slug}`" class="ml-auto text-xs text-blue-700 hover:underline">details →</a>
           </div>
         </div>
       </article>

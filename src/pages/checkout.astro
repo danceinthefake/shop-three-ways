@@ -7,6 +7,7 @@ import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import CompareSection from '../components/CompareSection.astro';
+import ToasterReact from '../components/ToasterReact.tsx';
 ---
 
 <html lang="en">
@@ -62,5 +63,7 @@ import CompareSection from '../components/CompareSection.astro';
         </section>
       </div>
     </main>
+
+    <ToasterReact client:load />
   </body>
 </html>

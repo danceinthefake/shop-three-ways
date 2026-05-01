@@ -1,6 +1,7 @@
 import { computed } from 'nanostores';
 import { persistentAtom } from '@nanostores/persistent';
 import type { Product } from '../data/products';
+import { pushToast } from './toasts';
 
 export type CartItem = {
   id: number;
@@ -35,6 +36,11 @@ export function addToCart(product: Product) {
           image: product.thumbnail,
           qty: 1,
         },
+  });
+  pushToast({
+    variant: 'success',
+    title: 'Added to cart',
+    message: product.title,
   });
 }
 

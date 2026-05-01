@@ -261,4 +261,44 @@ export const features: Feature[] = [
         '$state per field, $derived.by for the errors map. bind:value on each input. The shape mirrors Vue closely; the rune syntax is the only meaningful difference.',
     },
   },
+  {
+    slug: 'wishlist-toggle',
+    title: 'Wishlist toggle',
+    concept: 'Local UI state + persistent global store',
+    blurb:
+      'A heart-shaped toggle on each product card that persists across sessions. The button reads "is this in the wishlist?" from a derived value and toggles the entry on click — same shape as the cart, but the store is a Set-of-ids and the state read is a boolean.',
+    files: {
+      react: 'WishlistButtonReact.tsx',
+      vue: 'WishlistButtonVue.vue',
+      svelte: 'WishlistButtonSvelte.svelte',
+    },
+    notes: {
+      react:
+        'useStore(wishlist) gives the current map; saved is a plain boolean derived inline. aria-pressed on the button + class swap based on saved is the entire visual state.',
+      vue:
+        'useStore returns a Vue ref; computed wraps the boolean lookup so the template auto-tracks it. :class array switches between two Tailwind sets.',
+      svelte:
+        '$wishlist auto-subscription, then saved is a $derived rune over the lookup. Pure runes, no adapter — same five lines you would write to read any other store.',
+    },
+  },
+  {
+    slug: 'toast-notifications',
+    title: 'Toast notifications',
+    concept: 'Composition (children / slot / snippet)',
+    blurb:
+      'A reusable Toast wrapper that takes arbitrary content. The Toaster fires one for every add-to-cart and wishlist toggle. The interesting comparison is how each framework lets a parent pass markup into a child slot.',
+    files: {
+      react: 'ToastReact.tsx',
+      vue: 'ToastVue.vue',
+      svelte: 'ToastSvelte.svelte',
+    },
+    notes: {
+      react:
+        'children is just a typed prop — ReactNode covers strings, elements, fragments, anything. The wrapper renders {children} where the slot belongs. There is no separate "slot" concept in React; composition IS just passing JSX.',
+      vue:
+        'A default <slot /> in the template renders whatever the parent put between <Toast>...</Toast>. Vue also supports named slots and scoped slots; this case only needs the default.',
+      svelte:
+        'Svelte 5 replaces the old <slot /> with snippets. Children come in as a Snippet prop, declared in $props, and rendered with the {@render children()} directive. More explicit than slots — closer in spirit to React children.',
+    },
+  },
 ];

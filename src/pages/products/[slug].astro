@@ -8,6 +8,7 @@ import CartBadgeReact from '../../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../../components/CartBadgeSvelte.svelte';
 import CompareSection from '../../components/CompareSection.astro';
+import ToasterReact from '../../components/ToasterReact.tsx';
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -73,5 +74,7 @@ const { product } = Astro.props as { product: Product };
         <ProductDetailSvelte product={product} client:load />
       </section>
     </main>
+
+    <ToasterReact client:load />
   </body>
 </html>
