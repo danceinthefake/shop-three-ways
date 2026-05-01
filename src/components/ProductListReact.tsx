@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PRODUCTS_URL, type Product } from '../data/products';
 import AddToCartButtonReact from './AddToCartButtonReact';
 
 export default function ProductListReact() {
   const [products, setProducts] = useState<Product[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -24,24 +25,49 @@ export default function ProductListReact() {
     };
   }, []);
 
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return products;
+    return products.filter((p) => p.title.toLowerCase().includes(q));
+  }, [products, query]);
+
   if (status === 'loading') return <p className="text-slate-500">Loading…</p>;
   if (status === 'error') return <p className="text-red-600">Failed to load products.</p>;
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
-      {products.map((p) => (
-        <article key={p.id} className="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
-          <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
-          <div className="flex flex-1 flex-col gap-1 p-3">
-            <span className="font-semibold">{p.title}</span>
-            <span className="tabular-nums text-blue-700">${p.price}</span>
-            <span className="line-clamp-2 text-sm text-slate-500">{p.description}</span>
-            <div className="mt-2">
-              <AddToCartButtonReact product={p} />
-            </div>
-          </div>
-        </article>
-      ))}
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search products…"
+          className="flex-1 rounded border border-slate-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+        />
+        <span className="text-xs text-slate-500 tabular-nums">
+          {filtered.length} of {products.length}
+        </span>
+      </div>
+
+      {filtered.length === 0 ? (
+        <p className="text-sm text-slate-500">No products match "{query}".</p>
+      ) : (
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
+          {filtered.map((p) => (
+            <article key={p.id} className="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
+              <img src={p.images[0]} alt={p.title} loading="lazy" className="aspect-square w-full object-cover" />
+              <div className="flex flex-1 flex-col gap-1 p-3">
+                <span className="font-semibold">{p.title}</span>
+                <span className="tabular-nums text-blue-700">${p.price}</span>
+                <span className="line-clamp-2 text-sm text-slate-500">{p.description}</span>
+                <div className="mt-2">
+                  <AddToCartButtonReact product={p} />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

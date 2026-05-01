@@ -143,7 +143,7 @@ Seven features ship in v1:
 4. ✅ **Add-to-cart button** — events, parent ↔ child communication.
 5. ✅ **Cart badge in header** — global state via nanostores (centerpiece).
 6. ✅ **Quantity stepper** — two-way binding idioms.
-7. **Search / filter** — derived state.
+7. ✅ **Search / filter** — derived state.
 
 ## 8. Rough Build Order
 
@@ -155,7 +155,8 @@ Seven features ship in v1:
    buttons embedded in each ProductList card.)*
 4. ✅ Quantity stepper (the two-way-binding showcase). *(Lives on a
    new `/cart` page with three CartView panels.)*
-5. Search / filter (derived state).
+5. ✅ Search / filter (derived state). *(Added inline to each
+   ProductList — local query + derived filtered list per panel.)*
 6. Slide banner on home (timers + cleanup).
 7. Product carousel on home (DOM refs).
 8. `/compare/<feature>` pages with side-by-side source.
