@@ -244,9 +244,9 @@ export const features: Feature[] = [
   {
     slug: 'checkout-form',
     title: 'Checkout form',
-    concept: 'Forms + validation',
+    concept: 'Forms + validation + radio groups',
     blurb:
-      'Five fields with required + email/zip-format validation, derived error map, gated submit, and inline success state. The genuinely-different muscle compared to everything else in the demo.',
+      'Seven fields including a phone number and a shipping radio group, all validated. Live order summary derives subtotal from the cart store, looks up the selected shipping option, and surfaces a free-shipping threshold. Submit is gated until everything is valid; success replaces the form inline.',
     files: {
       react: 'CheckoutFormReact.tsx',
       vue: 'CheckoutFormVue.vue',
@@ -254,11 +254,11 @@ export const features: Feature[] = [
     },
     notes: {
       react:
-        'A useState per field plus a useMemo for the errors map, with all five fields in the deps. Manual onChange wiring on every input — tedious but explicit. A small Field helper keeps the JSX repeating tolerable.',
+        'A useState per field plus a useMemo for the errors map (all seven fields in the deps), and three more useMemos for selectedOption / shippingFee / total derived from the cart subtotal. Radio inputs are explicit checked + onChange — no shortcut for groups in React. A small Field helper keeps the repeating JSX tolerable.',
       vue:
-        'A ref per field, a computed for errors. v-model handles every input wire. The form template repeats but each field is just three lines (label + input + error span).',
+        'A ref per field, computed for errors and for the order summary. v-model handles text inputs AND the radio group — same directive, no special-case for groups. Cart subtotal comes through useStore + computed.',
       svelte:
-        '$state per field, $derived.by for the errors map. bind:value on each input. The shape mirrors Vue closely; the rune syntax is the only meaningful difference.',
+        '$state per field, $derived.by for the errors map, more $derived for the summary. Radio group uses bind:group={shipping} — the cleanest of the three for a one-of-many input. Cart store is read with $-prefix auto-subscription, no adapter.',
     },
   },
   {
