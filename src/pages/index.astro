@@ -6,6 +6,9 @@ import HelloSvelte from '../components/HelloSvelte.svelte';
 import SlideBannerReact from '../components/SlideBannerReact.tsx';
 import SlideBannerVue from '../components/SlideBannerVue.vue';
 import SlideBannerSvelte from '../components/SlideBannerSvelte.svelte';
+import ProductCarouselReact from '../components/ProductCarouselReact.tsx';
+import ProductCarouselVue from '../components/ProductCarouselVue.vue';
+import ProductCarouselSvelte from '../components/ProductCarouselSvelte.svelte';
 ---
 
 <html lang="en">
@@ -47,6 +50,29 @@ import SlideBannerSvelte from '../components/SlideBannerSvelte.svelte';
 					<div class="flex flex-col gap-2">
 						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte ($effect)</span>
 						<SlideBannerSvelte client:load />
+					</div>
+				</div>
+			</section>
+
+			<section class="mb-10">
+				<h2 class="mb-1 text-xl font-semibold">Featured carousel — three ways to grab a DOM element</h2>
+				<p class="mb-4 text-sm text-slate-600">
+					The prev/next buttons call <code>scrollBy()</code> on the underlying
+					scroll container. Each framework has its own way to capture that
+					element from the template.
+				</p>
+				<div class="flex flex-col gap-6">
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React (useRef)</span>
+						<ProductCarouselReact client:load />
+					</div>
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue (template ref)</span>
+						<ProductCarouselVue client:load />
+					</div>
+					<div class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:this)</span>
+						<ProductCarouselSvelte client:load />
 					</div>
 				</div>
 			</section>

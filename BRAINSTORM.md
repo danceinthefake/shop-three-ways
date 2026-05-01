@@ -137,7 +137,7 @@ Those four cover state, derived state, two-way binding, and global state.
 Seven features ship in v1:
 
 1. ✅ **Slide banner (hero)** — timers + cleanup on the home page.
-2. **Product carousel** — DOM refs + scroll handlers on the home page.
+2. ✅ **Product carousel** — DOM refs + scroll handlers on the home page.
 3. ✅ **Product list (with API fetch)** — list rendering + async/effects
    (`useEffect` vs `onMounted` vs `$effect`) + loading/error states.
 4. ✅ **Add-to-cart button** — events, parent ↔ child communication.
@@ -158,6 +158,6 @@ Seven features ship in v1:
 5. ✅ Search / filter (derived state). *(Added inline to each
    ProductList — local query + derived filtered list per panel.)*
 6. ✅ Slide banner on home (timers + cleanup).
-7. Product carousel on home (DOM refs).
+7. ✅ Product carousel on home (DOM refs).
 8. `/compare/<feature>` pages with side-by-side source.
 9. Polish home copy + about.
