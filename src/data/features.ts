@@ -114,11 +114,11 @@ export const features: Feature[] = [
     },
     notes: {
       react:
-        'useRef returns a stable object across renders. Pass it via the JSX ref prop and read element through .current. Always nullable — the element doesn\'t exist before the first commit.',
+        'useRef returns a stable object across renders. Pass it via the JSX ref prop and read element through .current. Always nullable — the element doesn\'t exist before the first commit. The fetch lives in useEffect with a cancelled flag.',
       vue:
-        'Declare a normal ref(null), give the element a string name in the template (ref="scroller"), and Vue auto-binds it. Access through .value. The string-name binding is what links script and template.',
+        'Declare a normal ref(null), give the element a string name in the template (ref="scroller"), and Vue auto-binds it. Access through .value. The fetch goes in onMounted async.',
       svelte:
-        'A plain variable wrapped in $state() so reactivity tracks it, then bind:this={scroller} in the template. Direct access — no .current or .value indirection. The $state wrap is a Svelte 5 quirk; in Svelte 4 a bare let was enough.',
+        '{#await} for the fetch — same simplification as in ProductList. bind:this={scroller} captures the element directly, no .current or .value. The $state wrap on the variable is a Svelte 5 quirk; in Svelte 4 a bare let was enough.',
     },
   },
   {
@@ -138,7 +138,7 @@ export const features: Feature[] = [
       vue:
         'ref for state, onMounted async for the fetch, computed for the filter. No deps to declare — Vue tracks reactive reads automatically. The cancelled flag isn\'t needed because onMounted only runs once.',
       svelte:
-        '$state for everything, $effect for the fetch (also returns a cleanup with cancelled flag), $derived.by for the filter. .by takes a function (vs $derived which takes an expression) and is needed when the derivation has multiple statements.',
+        'No state machine at all — {#await} is built into the template. The promise is fired once at component setup and Svelte renders the {pending / :then / :catch} branches automatically. The filtered list is a {@const} inside {:then}, which auto-recomputes when query changes. Compare to React/Vue: half the script section disappears, no cancelled flag needed.',
     },
   },
   {
@@ -214,11 +214,11 @@ export const features: Feature[] = [
     },
     notes: {
       react:
-        'Object.values($cart).map(...) with a key prop on each row. Empty state is an early return — common React pattern for swapping the whole render.',
+        'Object.values($cart).map(...) with a key prop on each row. Empty state is an early return. No animation — for a slide-out on remove or FLIP on reorder, you would reach for framer-motion or similar.',
       vue:
-        'computed for items and total (auto-tracked from the store ref). v-for with :key on the row, v-if/v-else for the empty state.',
+        'computed for items and total. v-for with :key on the row, v-if/v-else for the empty state. <TransitionGroup> wraps the list and a small <style scoped> block defines cart-row-enter/leave/move classes for slide-and-fade animation on add/remove.',
       svelte:
-        '$derived for items and total. {#each items as item (item.id)} with the keyed expression, {#if}/{:else} for the empty state.',
+        '$derived for items and total. The interesting bit: animate:flip={{ duration: 200 }} on each row gives free FLIP animation when items reorder or the list shifts after a remove. transition:fade handles the entry/exit. Both come from svelte/animate and svelte/transition — no library, no CSS.',
     },
   },
   {
@@ -294,11 +294,11 @@ export const features: Feature[] = [
     },
     notes: {
       react:
-        'children is just a typed prop — ReactNode covers strings, elements, fragments, anything. The wrapper renders {children} where the slot belongs. There is no separate "slot" concept in React; composition IS just passing JSX.',
+        'children is just a typed prop — ReactNode covers strings, elements, fragments, anything. The wrapper renders {children} where the slot belongs. The Toaster has no enter/leave animation — for that, you would install framer-motion (<AnimatePresence>) or react-transition-group.',
       vue:
-        'A default <slot /> in the template renders whatever the parent put between <Toast>...</Toast>. Vue also supports named slots and scoped slots; this case only needs the default.',
+        'A default <slot /> in the template renders whatever the parent put between <Toast>...</Toast>. The Toaster wraps its v-for in <TransitionGroup name="toast" tag="div"> and a <style scoped> defines toast-enter/leave classes for slide-in/out — built-in, no library.',
       svelte:
-        'Svelte 5 replaces the old <slot /> with snippets. Children come in as a Snippet prop, declared in $props, and rendered with the {@render children()} directive. More explicit than slots — closer in spirit to React children.',
+        'Svelte 5 replaces the old <slot /> with snippets. Children come in as a Snippet prop and are rendered with {@render children()}. The Toaster adds transition:fly={{ x: 20, duration: 200 }} as a one-liner on each toast wrapper — Svelte ships transition primitives in svelte/transition, no library, no CSS classes.',
     },
   },
 ];

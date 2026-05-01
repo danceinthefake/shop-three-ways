@@ -1,37 +1,17 @@
 <script lang="ts">
-  import { fetchProducts, type Product } from '../data/products';
+  import { fetchProducts } from '../data/products';
   import AddToCartButtonSvelte from './AddToCartButtonSvelte.svelte';
   import WishlistButtonSvelte from './WishlistButtonSvelte.svelte';
 
-  let products = $state<Product[]>([]);
-  let status = $state<'loading' | 'ready' | 'error'>('loading');
+  // Kicked off once at component setup. {#await} subscribes the template to
+  // its three states (pending / fulfilled / rejected) — no useState, no
+  // useEffect, no cancelled-flag bookkeeping.
+  const productsPromise = fetchProducts();
+
   let query = $state('');
-
-  $effect(() => {
-    let cancelled = false;
-    fetchProducts()
-      .then((data) => {
-        if (!cancelled) {
-          products = data;
-          status = 'ready';
-        }
-      })
-      .catch(() => {
-        if (!cancelled) status = 'error';
-      });
-    return () => {
-      cancelled = true;
-    };
-  });
-
-  const filtered = $derived.by(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter((p) => p.title.toLowerCase().includes(q));
-  });
 </script>
 
-{#if status === 'loading'}
+{#await productsPromise}
   <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
     {#each Array(8) as _, i (i)}
       <article class="flex animate-pulse flex-col overflow-hidden rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
@@ -45,9 +25,9 @@
       </article>
     {/each}
   </div>
-{:else if status === 'error'}
-  <p class="text-red-600">Failed to load products.</p>
-{:else}
+{:then products}
+  {@const q = query.trim().toLowerCase()}
+  {@const filtered = q ? products.filter((p) => p.title.toLowerCase().includes(q)) : products}
   <div class="flex flex-col gap-4">
     <div class="flex items-center gap-3">
       <input
@@ -83,4 +63,6 @@
       </div>
     {/if}
   </div>
-{/if}
+{:catch}
+  <p class="text-red-600">Failed to load products.</p>
+{/await}

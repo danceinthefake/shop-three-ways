@@ -1,35 +1,17 @@
 <script lang="ts">
-  import { fetchProducts, type Product } from '../data/products';
+  import { fetchProducts } from '../data/products';
 
   const SCROLL_STEP = 240;
+  const productsPromise = fetchProducts();
 
-  let products = $state<Product[]>([]);
-  let status = $state<'loading' | 'ready' | 'error'>('loading');
   let scroller: HTMLDivElement | undefined = $state();
-
-  $effect(() => {
-    let cancelled = false;
-    fetchProducts()
-      .then((data) => {
-        if (!cancelled) {
-          products = data;
-          status = 'ready';
-        }
-      })
-      .catch(() => {
-        if (!cancelled) status = 'error';
-      });
-    return () => {
-      cancelled = true;
-    };
-  });
 
   function scroll(dir: -1 | 1) {
     scroller?.scrollBy({ left: dir * SCROLL_STEP, behavior: 'smooth' });
   }
 </script>
 
-{#if status === 'loading'}
+{#await productsPromise}
   <div class="flex gap-3 overflow-hidden pb-2">
     {#each Array(6) as _, i (i)}
       <article class="flex w-52 shrink-0 animate-pulse flex-col overflow-hidden rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
@@ -41,9 +23,7 @@
       </article>
     {/each}
   </div>
-{:else if status === 'error'}
-  <p class="text-red-600">Failed to load products.</p>
-{:else}
+{:then products}
   <div class="relative">
     <button
       type="button"
@@ -75,4 +55,6 @@
       class="absolute right-0 top-1/2 z-10 translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow hover:bg-slate-50 dark:hover:bg-slate-800"
     >›</button>
   </div>
-{/if}
+{:catch}
+  <p class="text-red-600">Failed to load products.</p>
+{/await}
