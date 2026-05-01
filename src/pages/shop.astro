@@ -18,26 +18,26 @@ import CompareSection from '../components/CompareSection.astro';
         <CompareSection slug="toast-notifications" label="Toast" />
       </div>
     </div>
-    <p class="mb-8 text-slate-600">
+    <p class="mb-8 text-slate-600 dark:text-slate-300">
       The same product list, fetched from
-      <a href="https://dummyjson.com/docs/products" class="text-blue-700 hover:underline">DummyJSON</a>
+      <a href="https://dummyjson.com/docs/products" class="text-blue-700 dark:text-blue-400 hover:underline">DummyJSON</a>
       and rendered three times. Click "Add to cart" in <em>any</em> framework's column —
       the badges in the header (one per framework) update together because they
       all subscribe to the same nanostore.
     </p>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">React</h2>
       <ProductListReact client:load />
     </section>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Vue</h2>
       <ProductListVue client:load />
     </section>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Svelte</h2>
       <ProductListSvelte client:load />
     </section>
   </main>

@@ -8,7 +8,7 @@ type Props = {
 };
 
 const variantClasses: Record<ToastVariant, string> = {
-  info: 'border-slate-200 bg-white text-slate-900',
+  info: 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100',
   success: 'border-emerald-200 bg-emerald-50 text-emerald-900',
   wishlist: 'border-rose-200 bg-rose-50 text-rose-900',
 };
@@ -25,7 +25,7 @@ export default function ToastReact({ variant = 'info', onDismiss, children }: Pr
           type="button"
           onClick={onDismiss}
           aria-label="Dismiss"
-          className="text-slate-400 hover:text-slate-700"
+          className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
         >
           ✕
         </button>

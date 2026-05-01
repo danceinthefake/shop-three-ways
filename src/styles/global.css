@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Class-based dark variant — apply when a `.dark` class is on or above
+   the element. The toggle adds/removes it on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Quantity steppers provide their own +/- buttons, so hide the
    browser's native spinner arrows on number inputs. */
 input[type="number"]::-webkit-inner-spin-button,

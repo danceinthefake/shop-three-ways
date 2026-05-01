@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const inputCls = 'rounded border border-slate-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
+const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
 
 type Errors = Partial<Record<'name' | 'email' | 'address' | 'city' | 'zip', string>>;
 
@@ -73,7 +73,7 @@ export default function CheckoutFormReact() {
 function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-slate-600">{label}</span>
+      <span className="text-slate-600 dark:text-slate-300">{label}</span>
       {children}
       {error && <span className="text-xs text-red-600">{error}</span>}
     </label>

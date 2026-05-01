@@ -21,11 +21,11 @@ export default function QuantityStepperReact({ id }: Props) {
   };
 
   return (
-    <div className="inline-flex items-center rounded border border-slate-300">
+    <div className="inline-flex items-center rounded border border-slate-300 dark:border-slate-700">
       <button
         type="button"
         onClick={() => setQty(id, qty - 1)}
-        className="px-2 py-1 text-slate-700 hover:bg-slate-100"
+        className="px-2 py-1 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
         aria-label="Decrease"
       >
         −
@@ -39,12 +39,12 @@ export default function QuantityStepperReact({ id }: Props) {
         onKeyDown={(e) => {
           if (e.key === 'Enter') (e.currentTarget as HTMLInputElement).blur();
         }}
-        className="w-12 border-x border-slate-300 px-2 py-1 text-center tabular-nums focus:outline-none"
+        className="w-12 border-x border-slate-300 dark:border-slate-700 px-2 py-1 text-center tabular-nums focus:outline-none"
       />
       <button
         type="button"
         onClick={() => setQty(id, qty + 1)}
-        className="px-2 py-1 text-slate-700 hover:bg-slate-100"
+        className="px-2 py-1 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
         aria-label="Increase"
       >
         +

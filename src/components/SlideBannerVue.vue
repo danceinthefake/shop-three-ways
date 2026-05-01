@@ -6,6 +6,7 @@ const i = ref(0);
 let timerId: ReturnType<typeof setInterval> | undefined;
 
 onMounted(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   timerId = setInterval(() => {
     i.value = (i.value + 1) % promos.length;
   }, SLIDE_INTERVAL_MS);
@@ -17,7 +18,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative h-48 overflow-hidden rounded-lg bg-slate-200">
+  <div class="relative h-48 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
     <img :src="promos[i].image" alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-black/40" />
     <div class="relative flex h-full flex-col justify-end gap-1 p-4 text-white">

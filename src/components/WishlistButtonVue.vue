@@ -18,7 +18,7 @@ const saved = computed(() => !!$wishlist.value[props.id]);
       'flex h-8 w-8 items-center justify-center rounded-full border text-base transition',
       saved
         ? 'border-rose-300 bg-rose-50 text-rose-600'
-        : 'border-slate-200 bg-white text-slate-400 hover:text-rose-500',
+        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-400 hover:text-rose-500',
     ]"
   >
     {{ saved ? '♥' : '♡' }}

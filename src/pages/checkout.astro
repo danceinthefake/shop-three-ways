@@ -12,7 +12,7 @@ import CompareSection from '../components/CompareSection.astro';
       <h1 class="text-3xl font-bold">Checkout</h1>
       <CompareSection slug="checkout-form" label="CheckoutForm" />
     </div>
-    <p class="mb-8 text-slate-600">
+    <p class="mb-8 text-slate-600 dark:text-slate-300">
       Three independent forms with the same fields and the same validation
       rules. The interesting code is how each framework structures
       per-field state, derives the error map, and gates the submit button.
@@ -20,16 +20,16 @@ import CompareSection from '../components/CompareSection.astro';
     </p>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <section class="rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React (useState + useMemo)</h2>
+      <section class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">React (useState + useMemo)</h2>
         <CheckoutFormReact client:load />
       </section>
-      <section class="rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue (ref + computed)</h2>
+      <section class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Vue (ref + computed)</h2>
         <CheckoutFormVue client:load />
       </section>
-      <section class="rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte ($state + $derived)</h2>
+      <section class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Svelte ($state + $derived)</h2>
         <CheckoutFormSvelte client:load />
       </section>
     </div>

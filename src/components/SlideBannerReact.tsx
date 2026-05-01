@@ -5,6 +5,7 @@ export default function SlideBannerReact() {
   const [i, setI] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = setInterval(() => {
       setI((prev) => (prev + 1) % promos.length);
     }, SLIDE_INTERVAL_MS);
@@ -14,7 +15,7 @@ export default function SlideBannerReact() {
   const slide = promos[i];
 
   return (
-    <div className="relative h-48 overflow-hidden rounded-lg bg-slate-200">
+    <div className="relative h-48 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
       <img src={slide.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative flex h-full flex-col justify-end gap-1 p-4 text-white">

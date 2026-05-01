@@ -4,6 +4,7 @@
   let i = $state(0);
 
   $effect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = setInterval(() => {
       i = (i + 1) % promos.length;
     }, SLIDE_INTERVAL_MS);
@@ -11,7 +12,7 @@
   });
 </script>
 
-<div class="relative h-48 overflow-hidden rounded-lg bg-slate-200">
+<div class="relative h-48 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
   <img src={promos[i].image} alt="" class="absolute inset-0 h-full w-full object-cover" />
   <div class="absolute inset-0 bg-black/40"></div>
   <div class="relative flex h-full flex-col justify-end gap-1 p-4 text-white">

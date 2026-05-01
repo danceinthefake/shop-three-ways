@@ -13,7 +13,7 @@ export default function ProductDetailReact({ product }: Props) {
         <img
           src={product.images[selected]}
           alt={product.title}
-          className="aspect-square w-full rounded-lg border border-slate-200 bg-white object-cover"
+          className="aspect-square w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 object-cover"
         />
         {product.images.length > 1 && (
           <div className="mt-2 flex gap-2">
@@ -35,10 +35,10 @@ export default function ProductDetailReact({ product }: Props) {
       </div>
 
       <div className="flex flex-col gap-3">
-        <span className="text-xs uppercase tracking-wider text-slate-500">{product.category}</span>
+        <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">{product.category}</span>
         <h2 className="text-2xl font-bold">{product.title}</h2>
-        <span className="text-xl tabular-nums text-blue-700">${product.price}</span>
-        <p className="text-sm leading-relaxed text-slate-600">{product.description}</p>
+        <span className="text-xl tabular-nums text-blue-700 dark:text-blue-400">${product.price}</span>
+        <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{product.description}</p>
         <div className="mt-2">
           <AddToCartButtonReact product={product} />
         </div>

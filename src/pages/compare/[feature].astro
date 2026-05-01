@@ -24,12 +24,12 @@ const svelteSize = measureSource(svelteSrc);
 
 <Layout title={`${feature.title} — Compare — shop-three-ways`} maxWidth="7xl" withCart={false}>
   <main class="mx-auto max-w-7xl px-6 py-8">
-    <p class="mb-4 text-sm"><a href="/compare" class="text-blue-700 hover:underline">← all comparisons</a></p>
-    <p class="mb-1 text-xs uppercase tracking-wider text-slate-500">{feature.concept}</p>
+    <p class="mb-4 text-sm"><a href="/compare" class="text-blue-700 dark:text-blue-400 hover:underline">← all comparisons</a></p>
+    <p class="mb-1 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">{feature.concept}</p>
     <h1 class="mb-2 text-3xl font-bold">{feature.title}</h1>
-    <p class="mb-6 max-w-3xl text-slate-600">{feature.blurb}</p>
+    <p class="mb-6 max-w-3xl text-slate-600 dark:text-slate-300">{feature.blurb}</p>
 
-    <p class="mb-6 max-w-3xl text-xs text-slate-500">
+    <p class="mb-6 max-w-3xl text-xs text-slate-500 dark:text-slate-400">
       Each panel header shows the source size of that component file (raw,
       gzipped, line count). Source-only — framework runtime (React ~45 KB,
       Vue ~35 KB, Svelte ~5 KB gzipped) is shared across every island and
@@ -37,16 +37,16 @@ const svelteSize = measureSource(svelteSrc);
     </p>
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
-        <div class="border-b border-slate-200 px-3 py-2">
+      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-3 py-2">
           <div class="flex items-baseline justify-between gap-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">React</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">React</span>
             <span class="font-mono text-xs text-slate-400">{formatBytes(reactSize.gzip)} gzip · {reactSize.lines} lines</span>
           </div>
           <span class="font-mono text-xs text-slate-400">{feature.files.react}</span>
         </div>
-        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
-          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+        <details class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">How this works</summary>
           <p class="leading-relaxed" set:html={linkifyNote(feature.notes.react)}></p>
         </details>
         <div class="overflow-x-auto p-3 text-xs">
@@ -54,16 +54,16 @@ const svelteSize = measureSource(svelteSrc);
         </div>
       </div>
 
-      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
-        <div class="border-b border-slate-200 px-3 py-2">
+      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-3 py-2">
           <div class="flex items-baseline justify-between gap-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Vue</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Vue</span>
             <span class="font-mono text-xs text-slate-400">{formatBytes(vueSize.gzip)} gzip · {vueSize.lines} lines</span>
           </div>
           <span class="font-mono text-xs text-slate-400">{feature.files.vue}</span>
         </div>
-        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
-          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+        <details class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">How this works</summary>
           <p class="leading-relaxed" set:html={linkifyNote(feature.notes.vue)}></p>
         </details>
         <div class="overflow-x-auto p-3 text-xs">
@@ -71,16 +71,16 @@ const svelteSize = measureSource(svelteSrc);
         </div>
       </div>
 
-      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
-        <div class="border-b border-slate-200 px-3 py-2">
+      <div class="flex flex-col overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-3 py-2">
           <div class="flex items-baseline justify-between gap-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Svelte</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Svelte</span>
             <span class="font-mono text-xs text-slate-400">{formatBytes(svelteSize.gzip)} gzip · {svelteSize.lines} lines</span>
           </div>
           <span class="font-mono text-xs text-slate-400">{feature.files.svelte}</span>
         </div>
-        <details class="border-b border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 [&[open]>summary]:mb-2">
-          <summary class="cursor-pointer text-slate-500 hover:text-slate-700">How this works</summary>
+        <details class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 [&[open]>summary]:mb-2">
+          <summary class="cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">How this works</summary>
           <p class="leading-relaxed" set:html={linkifyNote(feature.notes.svelte)}></p>
         </details>
         <div class="overflow-x-auto p-3 text-xs">

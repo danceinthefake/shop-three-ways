@@ -19,29 +19,29 @@ const { product } = Astro.props as { product: Product };
 
 <Layout title={`${product.title} — shop-three-ways`} stickyHeader>
   <main class="mx-auto max-w-5xl px-6 py-8">
-    <p class="mb-4 text-sm text-slate-500"><a href="/shop" class="text-blue-700 hover:underline">← all products</a></p>
+    <p class="mb-4 text-sm text-slate-500 dark:text-slate-400"><a href="/shop" class="text-blue-700 dark:text-blue-400 hover:underline">← all products</a></p>
     <div class="mb-2 flex flex-wrap items-baseline justify-between gap-3">
       <h1 class="text-3xl font-bold">{product.title}</h1>
       <CompareSection slug="product-detail" label="ProductDetail" />
     </div>
-    <p class="mb-8 text-slate-600">
+    <p class="mb-8 text-slate-600 dark:text-slate-300">
       Same product detail rendered three times. The image gallery is the
       new bit — a tiny <em>local</em> "selected image" state per panel
       that doesn't touch the cart store.
     </p>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">React</h2>
       <ProductDetailReact product={product} client:load />
     </section>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Vue</h2>
       <ProductDetailVue product={product} client:load />
     </section>
 
-    <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
+    <section class="my-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+      <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Svelte</h2>
       <ProductDetailSvelte product={product} client:load />
     </section>
   </main>

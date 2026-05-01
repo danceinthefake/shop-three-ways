@@ -1,6 +1,6 @@
 <script lang="ts">
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const inputCls = 'rounded border border-slate-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
+  const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
 
   let name = $state('');
   let email = $state('');
@@ -38,28 +38,28 @@
 {:else}
   <form onsubmit={handleSubmit} class="flex flex-col gap-2" novalidate>
     <label class="flex flex-col gap-1 text-sm">
-      <span class="text-slate-600">Name</span>
+      <span class="text-slate-600 dark:text-slate-300">Name</span>
       <input class={inputCls} bind:value={name} />
       {#if showError('name')}<span class="text-xs text-red-600">{showError('name')}</span>{/if}
     </label>
     <label class="flex flex-col gap-1 text-sm">
-      <span class="text-slate-600">Email</span>
+      <span class="text-slate-600 dark:text-slate-300">Email</span>
       <input class={inputCls} type="email" bind:value={email} />
       {#if showError('email')}<span class="text-xs text-red-600">{showError('email')}</span>{/if}
     </label>
     <label class="flex flex-col gap-1 text-sm">
-      <span class="text-slate-600">Address</span>
+      <span class="text-slate-600 dark:text-slate-300">Address</span>
       <input class={inputCls} bind:value={address} />
       {#if showError('address')}<span class="text-xs text-red-600">{showError('address')}</span>{/if}
     </label>
     <div class="grid grid-cols-2 gap-2">
       <label class="flex flex-col gap-1 text-sm">
-        <span class="text-slate-600">City</span>
+        <span class="text-slate-600 dark:text-slate-300">City</span>
         <input class={inputCls} bind:value={city} />
         {#if showError('city')}<span class="text-xs text-red-600">{showError('city')}</span>{/if}
       </label>
       <label class="flex flex-col gap-1 text-sm">
-        <span class="text-slate-600">Zip</span>
+        <span class="text-slate-600 dark:text-slate-300">Zip</span>
         <input class={inputCls} bind:value={zip} />
         {#if showError('zip')}<span class="text-xs text-red-600">{showError('zip')}</span>{/if}
       </label>

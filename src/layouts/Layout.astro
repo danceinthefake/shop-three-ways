@@ -1,9 +1,11 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
 import ToasterReact from '../components/ToasterReact.tsx';
+import ThemeToggle from '../components/ThemeToggle.tsx';
 
 type MaxWidth = '3xl' | '5xl' | '7xl';
 
@@ -32,8 +34,8 @@ const widthClass: Record<MaxWidth, string> = {
 const containerClass = widthClass[maxWidth];
 
 const headerClass = stickyHeader
-  ? 'sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur'
-  : 'border-b border-slate-200 bg-white';
+  ? 'sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80'
+  : 'border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900';
 
 const navLinks: Array<{ href: string; label: string }> = [
   { href: '/', label: 'home' },
@@ -43,6 +45,12 @@ const navLinks: Array<{ href: string; label: string }> = [
   { href: '/glossary', label: 'glossary' },
   { href: '/about', label: 'about' },
 ];
+
+const currentPath = Astro.url.pathname;
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
 ---
 
 <html lang="en">
@@ -53,35 +61,61 @@ const navLinks: Array<{ href: string; label: string }> = [
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
+    <script is:inline>
+      // Apply persisted theme before paint to avoid a flash.
+      try {
+        if (localStorage.getItem('shop-three-ways:theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch {}
+    </script>
   </head>
-  <body class="bg-slate-50 text-slate-900">
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-blue-700 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
+    >Skip to content</a>
     <header class={headerClass}>
       <div class={`mx-auto flex ${containerClass} flex-wrap items-center justify-between gap-4 px-6 py-3 text-sm`}>
-        <nav class="flex flex-wrap gap-3">
+        <nav class="flex flex-wrap gap-x-3 gap-y-1" aria-label="Primary">
           {navLinks.map((l) => (
-            <a href={l.href} class="text-blue-700 hover:underline">{l.label}</a>
+            <a
+              href={l.href}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+              class={`hover:underline ${
+                isActive(l.href)
+                  ? 'font-semibold text-slate-900 dark:text-slate-100'
+                  : 'text-blue-700 dark:text-blue-400'
+              }`}
+            >{l.label}</a>
           ))}
         </nav>
-        {withCart && (
-          <div class="flex items-center gap-2">
-            <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
-            <CartBadgeReact client:load />
-            <CartBadgeVue client:load />
-            <CartBadgeSvelte client:load />
-          </div>
-        )}
+        <div class="flex items-center gap-3">
+          {withCart && (
+            <div class="flex items-center gap-2">
+              <span class="mr-1 text-xs text-slate-500 dark:text-slate-400">Cart (synced):</span>
+              <CartBadgeReact client:load transition:persist="badge-react" />
+              <CartBadgeVue client:load transition:persist="badge-vue" />
+              <CartBadgeSvelte client:load transition:persist="badge-svelte" />
+            </div>
+          )}
+          <ThemeToggle client:load transition:persist="theme-toggle" />
+        </div>
       </div>
     </header>
 
-    <slot />
+    <div id="main-content">
+      <slot />
+    </div>
 
-    {withCart && <ToasterReact client:load />}
+    {withCart && <ToasterReact client:load transition:persist="toaster" />}
 
     {withFooter && (
-      <footer class="mt-16 border-t border-slate-200 bg-white py-6">
-        <div class={`mx-auto flex ${containerClass} flex-wrap items-center justify-between gap-4 px-6 text-sm text-slate-500`}>
+      <footer class="mt-16 border-t border-slate-200 bg-white py-6 dark:border-slate-800 dark:bg-slate-900">
+        <div class={`mx-auto flex ${containerClass} flex-wrap items-center justify-between gap-4 px-6 text-sm text-slate-500 dark:text-slate-400`}>
           <p>shop-three-ways · a Rosetta-stone-style framework comparison</p>
-          <a href="/about" class="text-blue-700 hover:underline">how to read this site →</a>
+          <a href="/about" class="text-blue-700 hover:underline dark:text-blue-400">how to read this site →</a>
         </div>
       </footer>
     )}
