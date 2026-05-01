@@ -2,6 +2,8 @@
   import { cart } from '../stores/cart';
   import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 
+  type FieldKey = 'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping';
+
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
 
@@ -16,11 +18,15 @@
   let city = $state('');
   let zip = $state('');
   let shipping = $state('');
-  let tried = $state(false);
+  let touched = $state<Partial<Record<FieldKey, boolean>>>({});
   let submitted = $state(false);
 
+  const touch = (key: FieldKey) => {
+    if (!touched[key]) touched = { ...touched, [key]: true };
+  };
+
   const errors = $derived.by(() => {
-    const e: Record<string, string> = {};
+    const e: Partial<Record<FieldKey, string>> = {};
     if (name.trim().length < 2) e.name = 'Name is required.';
     if (!EMAIL_RE.test(email)) e.email = 'Valid email required.';
     if (phone.replace(/\D/g, '').length < 10) e.phone = 'At least 10 digits.';
@@ -43,11 +49,10 @@
 
   function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
-    tried = true;
     if (isValid) submitted = true;
   }
 
-  const showError = (key: string) => (tried ? errors[key] : undefined);
+  const showError = (key: FieldKey) => (touched[key] ? errors[key] : undefined);
 </script>
 
 {#if submitted}
@@ -60,33 +65,33 @@
   <form onsubmit={handleSubmit} class="flex flex-col gap-2" novalidate>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Name</span>
-      <input class={inputCls} bind:value={name} />
+      <input class={inputCls} bind:value={name} oninput={() => touch('name')} onblur={() => touch('name')} />
       {#if showError('name')}<span class="text-xs text-red-600">{showError('name')}</span>{/if}
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Email</span>
-      <input class={inputCls} type="email" bind:value={email} />
+      <input class={inputCls} type="email" bind:value={email} oninput={() => touch('email')} onblur={() => touch('email')} />
       {#if showError('email')}<span class="text-xs text-red-600">{showError('email')}</span>{/if}
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Phone</span>
-      <input class={inputCls} type="tel" bind:value={phone} />
+      <input class={inputCls} type="tel" bind:value={phone} oninput={() => touch('phone')} onblur={() => touch('phone')} />
       {#if showError('phone')}<span class="text-xs text-red-600">{showError('phone')}</span>{/if}
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Address</span>
-      <input class={inputCls} bind:value={address} />
+      <input class={inputCls} bind:value={address} oninput={() => touch('address')} onblur={() => touch('address')} />
       {#if showError('address')}<span class="text-xs text-red-600">{showError('address')}</span>{/if}
     </label>
     <div class="grid grid-cols-2 gap-2">
       <label class="flex flex-col gap-1 text-sm">
         <span class="text-slate-600 dark:text-slate-300">City</span>
-        <input class={inputCls} bind:value={city} />
+        <input class={inputCls} bind:value={city} oninput={() => touch('city')} onblur={() => touch('city')} />
         {#if showError('city')}<span class="text-xs text-red-600">{showError('city')}</span>{/if}
       </label>
       <label class="flex flex-col gap-1 text-sm">
         <span class="text-slate-600 dark:text-slate-300">Zip</span>
-        <input class={inputCls} bind:value={zip} />
+        <input class={inputCls} bind:value={zip} oninput={() => touch('zip')} onblur={() => touch('zip')} />
         {#if showError('zip')}<span class="text-xs text-red-600">{showError('zip')}</span>{/if}
       </label>
     </div>
@@ -101,6 +106,7 @@
             name="shipping-svelte"
             value={opt.id}
             bind:group={shipping}
+            onchange={() => touch('shipping')}
           />
           <span class="flex-1">
             {opt.name}
@@ -125,8 +131,8 @@
 
     <button
       type="submit"
-      class="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:opacity-50"
-      disabled={tried && !isValid}
+      class="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+      disabled={!isValid}
     >
       Place order
     </button>

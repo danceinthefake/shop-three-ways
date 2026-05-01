@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { cart } from '../stores/cart';
 import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
+
+type FieldKey = 'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping';
 
 const $cart = useStore(cart);
 const subtotal = computed(() =>
@@ -19,11 +21,15 @@ const address = ref('');
 const city = ref('');
 const zip = ref('');
 const shipping = ref('');
-const tried = ref(false);
+const touched = reactive<Partial<Record<FieldKey, boolean>>>({});
 const submitted = ref(false);
 
+const touch = (key: FieldKey) => {
+  touched[key] = true;
+};
+
 const errors = computed(() => {
-  const e: Record<string, string> = {};
+  const e: Partial<Record<FieldKey, string>> = {};
   if (name.value.trim().length < 2) e.name = 'Name is required.';
   if (!EMAIL_RE.test(email.value)) e.email = 'Valid email required.';
   if (phone.value.replace(/\D/g, '').length < 10) e.phone = 'At least 10 digits.';
@@ -45,11 +51,10 @@ const shippingFee = computed(() =>
 const total = computed(() => subtotal.value + shippingFee.value);
 
 function handleSubmit() {
-  tried.value = true;
   if (isValid.value) submitted.value = true;
 }
 
-const showError = (key: string) => (tried.value ? errors.value[key] : undefined);
+const showError = (key: FieldKey) => (touched[key] ? errors.value[key] : undefined);
 </script>
 
 <template>
@@ -64,33 +69,33 @@ const showError = (key: string) => (tried.value ? errors.value[key] : undefined)
   <form v-else @submit.prevent="handleSubmit" class="flex flex-col gap-2" novalidate>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Name</span>
-      <input :class="inputCls" v-model="name" />
+      <input :class="inputCls" v-model="name" @input="touch('name')" @blur="touch('name')" />
       <span v-if="showError('name')" class="text-xs text-red-600">{{ showError('name') }}</span>
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Email</span>
-      <input :class="inputCls" type="email" v-model="email" />
+      <input :class="inputCls" type="email" v-model="email" @input="touch('email')" @blur="touch('email')" />
       <span v-if="showError('email')" class="text-xs text-red-600">{{ showError('email') }}</span>
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Phone</span>
-      <input :class="inputCls" type="tel" v-model="phone" />
+      <input :class="inputCls" type="tel" v-model="phone" @input="touch('phone')" @blur="touch('phone')" />
       <span v-if="showError('phone')" class="text-xs text-red-600">{{ showError('phone') }}</span>
     </label>
     <label class="flex flex-col gap-1 text-sm">
       <span class="text-slate-600 dark:text-slate-300">Address</span>
-      <input :class="inputCls" v-model="address" />
+      <input :class="inputCls" v-model="address" @input="touch('address')" @blur="touch('address')" />
       <span v-if="showError('address')" class="text-xs text-red-600">{{ showError('address') }}</span>
     </label>
     <div class="grid grid-cols-2 gap-2">
       <label class="flex flex-col gap-1 text-sm">
         <span class="text-slate-600 dark:text-slate-300">City</span>
-        <input :class="inputCls" v-model="city" />
+        <input :class="inputCls" v-model="city" @input="touch('city')" @blur="touch('city')" />
         <span v-if="showError('city')" class="text-xs text-red-600">{{ showError('city') }}</span>
       </label>
       <label class="flex flex-col gap-1 text-sm">
         <span class="text-slate-600 dark:text-slate-300">Zip</span>
-        <input :class="inputCls" v-model="zip" />
+        <input :class="inputCls" v-model="zip" @input="touch('zip')" @blur="touch('zip')" />
         <span v-if="showError('zip')" class="text-xs text-red-600">{{ showError('zip') }}</span>
       </label>
     </div>
@@ -107,6 +112,7 @@ const showError = (key: string) => (tried.value ? errors.value[key] : undefined)
           name="shipping-vue"
           :value="opt.id"
           v-model="shipping"
+          @change="touch('shipping')"
         />
         <span class="flex-1">
           {{ opt.name }}
@@ -132,8 +138,8 @@ const showError = (key: string) => (tried.value ? errors.value[key] : undefined)
 
     <button
       type="submit"
-      class="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:opacity-50"
-      :disabled="tried && !isValid"
+      class="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+      :disabled="!isValid"
     >
       Place order
     </button>

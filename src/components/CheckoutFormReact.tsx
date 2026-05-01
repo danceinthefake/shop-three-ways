@@ -6,7 +6,9 @@ import { shippingOptions, effectiveShippingFee } from '../data/shipping';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputCls = 'rounded border border-slate-300 dark:border-slate-700 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none';
 
-type Errors = Partial<Record<'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping', string>>;
+type FieldKey = 'name' | 'email' | 'phone' | 'address' | 'city' | 'zip' | 'shipping';
+type Errors = Partial<Record<FieldKey, string>>;
+type Touched = Partial<Record<FieldKey, boolean>>;
 
 export default function CheckoutFormReact() {
   const $cart = useStore(cart);
@@ -22,8 +24,12 @@ export default function CheckoutFormReact() {
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
   const [shipping, setShipping] = useState('');
-  const [tried, setTried] = useState(false);
+  const [touched, setTouched] = useState<Touched>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const touch = (key: FieldKey) => {
+    setTouched((t) => (t[key] ? t : { ...t, [key]: true }));
+  };
 
   const errors = useMemo<Errors>(() => {
     const e: Errors = {};
@@ -51,9 +57,10 @@ export default function CheckoutFormReact() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setTried(true);
     if (isValid) setSubmitted(true);
   };
+
+  const showError = (key: FieldKey) => (touched[key] ? errors[key] : undefined);
 
   if (submitted) {
     return (
@@ -67,24 +74,24 @@ export default function CheckoutFormReact() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2" noValidate>
-      <Field label="Name" error={tried ? errors.name : undefined}>
-        <input className={inputCls} value={name} onChange={(e) => setName(e.target.value)} />
+      <Field label="Name" error={showError('name')}>
+        <input className={inputCls} value={name} onChange={(e) => { setName(e.target.value); touch('name'); }} onBlur={() => touch('name')} />
       </Field>
-      <Field label="Email" error={tried ? errors.email : undefined}>
-        <input className={inputCls} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <Field label="Email" error={showError('email')}>
+        <input className={inputCls} type="email" value={email} onChange={(e) => { setEmail(e.target.value); touch('email'); }} onBlur={() => touch('email')} />
       </Field>
-      <Field label="Phone" error={tried ? errors.phone : undefined}>
-        <input className={inputCls} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      <Field label="Phone" error={showError('phone')}>
+        <input className={inputCls} type="tel" value={phone} onChange={(e) => { setPhone(e.target.value); touch('phone'); }} onBlur={() => touch('phone')} />
       </Field>
-      <Field label="Address" error={tried ? errors.address : undefined}>
-        <input className={inputCls} value={address} onChange={(e) => setAddress(e.target.value)} />
+      <Field label="Address" error={showError('address')}>
+        <input className={inputCls} value={address} onChange={(e) => { setAddress(e.target.value); touch('address'); }} onBlur={() => touch('address')} />
       </Field>
       <div className="grid grid-cols-2 gap-2">
-        <Field label="City" error={tried ? errors.city : undefined}>
-          <input className={inputCls} value={city} onChange={(e) => setCity(e.target.value)} />
+        <Field label="City" error={showError('city')}>
+          <input className={inputCls} value={city} onChange={(e) => { setCity(e.target.value); touch('city'); }} onBlur={() => touch('city')} />
         </Field>
-        <Field label="Zip" error={tried ? errors.zip : undefined}>
-          <input className={inputCls} value={zip} onChange={(e) => setZip(e.target.value)} />
+        <Field label="Zip" error={showError('zip')}>
+          <input className={inputCls} value={zip} onChange={(e) => { setZip(e.target.value); touch('zip'); }} onBlur={() => touch('zip')} />
         </Field>
       </div>
 
@@ -100,7 +107,7 @@ export default function CheckoutFormReact() {
                 name="shipping-react"
                 value={opt.id}
                 checked={shipping === opt.id}
-                onChange={(e) => setShipping(e.target.value)}
+                onChange={(e) => { setShipping(e.target.value); touch('shipping'); }}
               />
               <span className="flex-1">
                 {opt.name} <span className="text-xs text-slate-500 dark:text-slate-400">· {opt.eta}</span>
@@ -109,7 +116,7 @@ export default function CheckoutFormReact() {
             </label>
           );
         })}
-        {tried && errors.shipping && <span className="text-xs text-red-600">{errors.shipping}</span>}
+        {showError('shipping') && <span className="text-xs text-red-600">{showError('shipping')}</span>}
       </fieldset>
 
       <dl className="mt-3 grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 border-t border-slate-200 dark:border-slate-800 pt-2 text-sm">
@@ -123,8 +130,8 @@ export default function CheckoutFormReact() {
 
       <button
         type="submit"
-        className="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:opacity-50"
-        disabled={tried && !isValid}
+        className="mt-2 self-start rounded bg-blue-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={!isValid}
       >
         Place order
       </button>
