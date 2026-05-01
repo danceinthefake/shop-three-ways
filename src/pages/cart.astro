@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
-import ProductListReact from '../components/ProductListReact.tsx';
-import ProductListVue from '../components/ProductListVue.vue';
-import ProductListSvelte from '../components/ProductListSvelte.svelte';
+import CartViewReact from '../components/CartViewReact.tsx';
+import CartViewVue from '../components/CartViewVue.vue';
+import CartViewSvelte from '../components/CartViewSvelte.svelte';
 import CartBadgeReact from '../components/CartBadgeReact.tsx';
 import CartBadgeVue from '../components/CartBadgeVue.vue';
 import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
@@ -12,14 +12,14 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Shop — shop-three-ways</title>
+    <title>Cart — shop-three-ways</title>
   </head>
   <body class="bg-slate-50 text-slate-900">
     <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
       <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
         <div class="flex gap-3 text-sm">
           <a href="/" class="text-blue-700 hover:underline">← home</a>
-          <a href="/cart" class="text-blue-700 hover:underline">cart</a>
+          <a href="/shop" class="text-blue-700 hover:underline">shop</a>
         </div>
         <div class="flex items-center gap-2">
           <span class="mr-1 text-xs text-slate-500">Cart (synced):</span>
@@ -31,28 +31,27 @@ import CartBadgeSvelte from '../components/CartBadgeSvelte.svelte';
     </header>
 
     <main class="mx-auto max-w-5xl px-6 py-8">
-      <h1 class="mb-2 text-3xl font-bold">Shop</h1>
+      <h1 class="mb-2 text-3xl font-bold">Cart</h1>
       <p class="mb-8 text-slate-600">
-        The same product list, fetched from the
-        <a href="https://fakeapi.platzi.com/" class="text-blue-700 hover:underline">Platzi Fake Store API</a>
-        and rendered three times. Click "Add to cart" in <em>any</em> framework's column —
-        the badges in the header (one per framework) update together because they
-        all subscribe to the same nanostore.
+        Three views of the same cart. The stepper input on each row is the
+        <strong>two-way binding showcase</strong>: type a number, click ±, or change
+        the qty in <em>any</em> framework's view — all three update because the
+        underlying cart is one nanostore.
       </p>
 
       <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React</h2>
-        <ProductListReact client:load />
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">React (controlled input)</h2>
+        <CartViewReact client:load />
       </section>
 
       <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue</h2>
-        <ProductListVue client:load />
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Vue (v-model)</h2>
+        <CartViewVue client:load />
       </section>
 
       <section class="my-6 rounded-lg border border-slate-200 bg-white p-4">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte</h2>
-        <ProductListSvelte client:load />
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">Svelte (bind:value)</h2>
+        <CartViewSvelte client:load />
       </section>
     </main>
   </body>

@@ -1,4 +1,5 @@
-import { atom, computed } from 'nanostores';
+import { computed } from 'nanostores';
+import { persistentAtom } from '@nanostores/persistent';
 import type { Product } from '../data/products';
 
 export type CartItem = {
@@ -11,7 +12,10 @@ export type CartItem = {
 
 export type Cart = Record<number, CartItem>;
 
-export const cart = atom<Cart>({});
+export const cart = persistentAtom<Cart>('shop-three-ways:cart', {}, {
+  encode: JSON.stringify,
+  decode: JSON.parse,
+});
 
 export const cartCount = computed(cart, ($cart) =>
   Object.values($cart).reduce((sum, item) => sum + item.qty, 0),
