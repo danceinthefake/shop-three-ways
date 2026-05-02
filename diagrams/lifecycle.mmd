@@ -1,0 +1,17 @@
+flowchart TD
+    M([Component mounted]) --> S[Setup runs<br/>useState/ref/$state init]
+    S --> E[Effect runs<br/>useEffect / onMounted / $effect]
+    E --> A[Component active]
+    A -->|Reactive read changes<br/>or re-render triggered| C1[Cleanup runs<br/>return fn from effect]
+    C1 --> E
+    A --> U([Component unmounted])
+    E --> C2[Final cleanup runs<br/>onUnmounted / cleanup return]
+    C2 --> U
+
+    style M fill:#dbeafe,stroke:#1e40af,color:#0f172a
+    style U fill:#fee2e2,stroke:#991b1b,color:#0f172a
+    style S fill:#fef3c7,stroke:#854d0e,color:#0f172a
+    style E fill:#fef3c7,stroke:#854d0e,color:#0f172a
+    style A fill:#dcfce7,stroke:#166534,color:#0f172a
+    style C1 fill:#fae8ff,stroke:#86198f,color:#0f172a
+    style C2 fill:#fae8ff,stroke:#86198f,color:#0f172a

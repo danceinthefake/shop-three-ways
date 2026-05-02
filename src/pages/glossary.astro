@@ -12,12 +12,63 @@ import Layout from '../layouts/Layout.astro';
       </p>
 
       <nav class="mb-10 flex flex-wrap gap-3 text-sm">
+        <a href="#diagrams" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">Diagrams</a>
         <a href="#general" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">General</a>
         <a href="#react" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">React</a>
         <a href="#vue" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">Vue</a>
         <a href="#svelte" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">Svelte 5</a>
         <a href="#nanostores" class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 hover:border-blue-300 dark:hover:border-blue-600">nanostores</a>
       </nav>
+
+      <section id="diagrams" class="mb-12 scroll-mt-6">
+        <h2 class="mb-4 border-b border-slate-200 dark:border-slate-800 pb-2 text-xl font-semibold">Visual reference</h2>
+        <p class="mb-6 text-sm text-slate-600 dark:text-slate-300">
+          Three pictures the rest of this page leans on. Pre-rendered SVGs
+          (<code>mmdc&nbsp;--scale&nbsp;8</code>), so they stay crisp at any zoom and add
+          no runtime JS to the page.
+        </p>
+
+        <figure class="mb-8">
+          <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <img src="/diagrams/reactivity-flow-light.svg" alt="" class="mx-auto block w-full max-w-2xl dark:hidden" />
+            <img src="/diagrams/reactivity-flow-dark.svg" alt="" class="mx-auto hidden w-full max-w-2xl dark:block" />
+          </div>
+          <figcaption class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <strong>Reactivity flow.</strong> A user action mutates a store; subscribers
+            are notified; components re-render. Same shape in all three frameworks —
+            only the subscription mechanism (<a href="#useStore" class="text-blue-700 dark:text-blue-400 hover:underline">useStore</a> /
+            <a href="#dollar-store" class="text-blue-700 dark:text-blue-400 hover:underline">$store</a>) differs.
+          </figcaption>
+        </figure>
+
+        <figure class="mb-8">
+          <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <img src="/diagrams/lifecycle-light.svg" alt="" class="mx-auto block w-full max-w-2xl dark:hidden" />
+            <img src="/diagrams/lifecycle-dark.svg" alt="" class="mx-auto hidden w-full max-w-2xl dark:block" />
+          </div>
+          <figcaption class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <strong>Component lifecycle.</strong> Setup runs once;
+            <a href="#useEffect" class="text-blue-700 dark:text-blue-400 hover:underline">useEffect</a> /
+            <a href="#onMounted" class="text-blue-700 dark:text-blue-400 hover:underline">onMounted</a> /
+            <a href="#effect-rune" class="text-blue-700 dark:text-blue-400 hover:underline">$effect</a> can re-run on dependency
+            change (with <a href="#cleanup" class="text-blue-700 dark:text-blue-400 hover:underline">cleanup</a> in between);
+            final cleanup runs on unmount.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <img src="/diagrams/async-fetch-light.svg" alt="" class="mx-auto block w-full max-w-2xl dark:hidden" />
+            <img src="/diagrams/async-fetch-dark.svg" alt="" class="mx-auto hidden w-full max-w-2xl dark:block" />
+          </div>
+          <figcaption class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <strong>Async fetch state machine.</strong> Three states the
+            <code>ProductList</code> components manage by hand in React and Vue.
+            Svelte collapses the same diagram to <code>{`{#await}`}</code> in the template
+            — see <a href="/compare/product-list" class="text-blue-700 dark:text-blue-400 hover:underline">/compare/product-list</a>.
+          </figcaption>
+        </figure>
+      </section>
 
       <section id="general" class="mb-10 scroll-mt-6">
         <h2 class="mb-4 border-b border-slate-200 dark:border-slate-800 pb-2 text-xl font-semibold">General reactivity</h2>

@@ -1,0 +1,16 @@
+stateDiagram-v2
+    [*] --> Loading: component mounted
+    Loading --> Ready: fetch resolves
+    Loading --> Error: fetch rejects
+    Ready --> [*]: unmounted
+    Error --> [*]: unmounted
+
+    note right of Loading
+        Show skeleton
+    end note
+    note right of Ready
+        Render data
+    end note
+    note right of Error
+        Show error UI
+    end note

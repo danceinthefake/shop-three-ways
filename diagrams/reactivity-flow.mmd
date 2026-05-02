@@ -1,0 +1,11 @@
+flowchart LR
+    A[User Action<br/>click, type, etc.] --> B[Store mutation<br/>cart.set, addToCart]
+    B --> C[Subscribers notified<br/>nanostores fan-out]
+    C --> D[Components re-render<br/>React, Vue, Svelte]
+    D --> E[DOM updated]
+
+    style A fill:#dbeafe,stroke:#1e40af,color:#0f172a
+    style B fill:#fef3c7,stroke:#854d0e,color:#0f172a
+    style C fill:#fef3c7,stroke:#854d0e,color:#0f172a
+    style D fill:#dcfce7,stroke:#166534,color:#0f172a
+    style E fill:#dcfce7,stroke:#166534,color:#0f172a
